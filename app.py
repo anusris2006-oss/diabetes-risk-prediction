@@ -23,12 +23,46 @@ model.load_model("diabetes_risk_model.json")
 
 
 # -------------------------------------------------
-# WELCOME PAGE
+# SESSION STATE
 # -------------------------------------------------
 
 if "started" not in st.session_state:
     st.session_state.started = False
 
+
+# -------------------------------------------------
+# FUNCTION TO CLEAR FORM VALUES
+# -------------------------------------------------
+
+def clear_form_data():
+    keys_to_clear = [
+        "BMI",
+        "Smoker",
+        "HeartDiseaseorAttack",
+        "PhysActivity",
+        "Fruits",
+        "Veggies",
+        "HvyAlcoholConsump",
+        "AnyHealthcare",
+        "NoDocbcCost",
+        "GenHlth",
+        "MentHlth",
+        "PhysHlth",
+        "DiffWalk",
+        "Sex",
+        "Age",
+        "Education",
+        "Income"
+    ]
+
+    for key in keys_to_clear:
+        if key in st.session_state:
+            del st.session_state[key]
+
+
+# -------------------------------------------------
+# WELCOME PAGE
+# -------------------------------------------------
 
 if not st.session_state.started:
 
@@ -80,7 +114,13 @@ if not st.session_state.started:
         type="primary",
         use_container_width=True
     ):
+
+        # Clear previous patient values
+        clear_form_data()
+
+        # Open dashboard
         st.session_state.started = True
+
         st.rerun()
 
     st.caption(
@@ -93,6 +133,17 @@ if not st.session_state.started:
 # -------------------------------------------------
 # DASHBOARD
 # -------------------------------------------------
+
+if st.button("← Back to Home"):
+
+    # Clear previous patient values
+    clear_form_data()
+
+    # Return to welcome page
+    st.session_state.started = False
+
+    st.rerun()
+
 
 st.title("🩺 Diabetes Risk Prediction Dashboard")
 
@@ -116,7 +167,7 @@ col1, col2 = st.columns(2)
 
 
 # -------------------------------------------------
-# LEFT COLUMN
+# LEFT COLUMN - HEALTH & LIFESTYLE
 # -------------------------------------------------
 
 with col1:
@@ -125,54 +176,63 @@ with col1:
 
     BMI = st.number_input(
         "BMI",
-        min_value=10,
+        min_value=0,
         max_value=80,
-        value=25
+        value=0,
+        key="BMI"
     )
 
     Smoker = st.selectbox(
         "Smoker",
-        ["No", "Yes"]
+        ["No", "Yes"],
+        key="Smoker"
     )
 
     HeartDiseaseorAttack = st.selectbox(
         "Heart Disease or Attack",
-        ["No", "Yes"]
+        ["No", "Yes"],
+        key="HeartDiseaseorAttack"
     )
 
     PhysActivity = st.selectbox(
         "Physical Activity",
-        ["Yes", "No"]
+        ["Yes", "No"],
+        key="PhysActivity"
     )
 
     Fruits = st.selectbox(
         "Consume Fruits",
-        ["Yes", "No"]
+        ["Yes", "No"],
+        key="Fruits"
     )
 
     Veggies = st.selectbox(
         "Consume Vegetables",
-        ["Yes", "No"]
+        ["Yes", "No"],
+        key="Veggies"
     )
 
     HvyAlcoholConsump = st.selectbox(
         "Heavy Alcohol Consumption",
-        ["No", "Yes"]
+        ["No", "Yes"],
+        key="HvyAlcoholConsump"
     )
 
     AnyHealthcare = st.selectbox(
         "Any Healthcare Coverage",
-        ["Yes", "No"]
+        ["Yes", "No"],
+        key="AnyHealthcare"
     )
 
     NoDocbcCost = st.selectbox(
         "Could Not See Doctor Due to Cost",
-        ["No", "Yes"]
+        ["No", "Yes"],
+        key="NoDocbcCost"
     )
 
 
 # -------------------------------------------------
-# RIGHT COLUMN
+# RIGHT COLUMN - GENERAL & PERSONAL INFORMATION
 # -------------------------------------------------
 
 with col2:
@@ -187,31 +247,36 @@ with col2:
             "Good",
             "Fair",
             "Poor"
-        ]
+        ],
+        key="GenHlth"
     )
 
     MentHlth = st.number_input(
         "Mental Health - Poor Days",
         min_value=0,
         max_value=30,
-        value=0
+        value=0,
+        key="MentHlth"
     )
 
     PhysHlth = st.number_input(
         "Physical Health - Poor Days",
         min_value=0,
         max_value=30,
-        value=0
+        value=0,
+        key="PhysHlth"
     )
 
     DiffWalk = st.selectbox(
         "Difficulty Walking",
-        ["No", "Yes"]
+        ["No", "Yes"],
+        key="DiffWalk"
     )
 
     Sex = st.selectbox(
         "Sex",
-        ["Female", "Male"]
+        ["Female", "Male"],
+        key="Sex"
     )
 
     Age = st.selectbox(
@@ -230,7 +295,8 @@ with col2:
             "70-74",
             "75-79",
             "80+"
-        ]
+        ],
+        key="Age"
     )
 
     Education = st.selectbox(
@@ -242,7 +308,8 @@ with col2:
             "High School Graduate",
             "Some College / Technical School",
             "College Graduate"
-        ]
+        ],
+        key="Education"
     )
 
     Income = st.selectbox(
@@ -256,7 +323,8 @@ with col2:
             "$35,000 to less than $50,000",
             "$50,000 to less than $75,000",
             "$75,000 or more"
-        ]
+        ],
+        key="Income"
     )
 
 
@@ -331,57 +399,41 @@ if st.button(
     use_container_width=True
 ):
 
+    # ---------------------------------------------
+    # INPUT VALIDATION
+    # ---------------------------------------------
+
+    if BMI == 0:
+
+        st.warning(
+            "⚠️ Please enter BMI before making a prediction."
+        )
+
+        st.stop()
+
+
+    # ---------------------------------------------
+    # PREPARE INPUT DATA
+    # ---------------------------------------------
+
     input_data = pd.DataFrame([{
-
         "BMI": BMI,
-
-        "Smoker":
-            yes_no[Smoker],
-
-        "HeartDiseaseorAttack":
-            yes_no[HeartDiseaseorAttack],
-
-        "PhysActivity":
-            yes_no[PhysActivity],
-
-        "Fruits":
-            yes_no[Fruits],
-
-        "Veggies":
-            yes_no[Veggies],
-
-        "HvyAlcoholConsump":
-            yes_no[HvyAlcoholConsump],
-
-        "AnyHealthcare":
-            yes_no[AnyHealthcare],
-
-        "NoDocbcCost":
-            yes_no[NoDocbcCost],
-
-        "GenHlth":
-            genhlth_map[GenHlth],
-
-        "MentHlth":
-            MentHlth,
-
-        "PhysHlth":
-            PhysHlth,
-
-        "DiffWalk":
-            yes_no[DiffWalk],
-
-        "Sex":
-            sex_map[Sex],
-
-        "Age":
-            age_map[Age],
-
-        "Education":
-            education_map[Education],
-
-        "Income":
-            income_map[Income]
+        "Smoker": yes_no[Smoker],
+        "HeartDiseaseorAttack": yes_no[HeartDiseaseorAttack],
+        "PhysActivity": yes_no[PhysActivity],
+        "Fruits": yes_no[Fruits],
+        "Veggies": yes_no[Veggies],
+        "HvyAlcoholConsump": yes_no[HvyAlcoholConsump],
+        "AnyHealthcare": yes_no[AnyHealthcare],
+        "NoDocbcCost": yes_no[NoDocbcCost],
+        "GenHlth": genhlth_map[GenHlth],
+        "MentHlth": MentHlth,
+        "PhysHlth": PhysHlth,
+        "DiffWalk": yes_no[DiffWalk],
+        "Sex": sex_map[Sex],
+        "Age": age_map[Age],
+        "Education": education_map[Education],
+        "Income": income_map[Income]
     }])
 
 
@@ -486,13 +538,8 @@ if st.button(
     ]
 
     importance_df = pd.DataFrame({
-
-        "Risk Factor":
-            feature_names,
-
-        "Importance":
-            model.feature_importances_
-
+        "Risk Factor": feature_names,
+        "Importance": model.feature_importances_
     })
 
     importance_df = importance_df.sort_values(
@@ -502,8 +549,8 @@ if st.button(
 
 
     st.write(
-        "The chart below shows the features that were most "
-        "influential in the model's predictions across the dataset."
+        "The chart below shows the features that were most influential "
+        "in the model's predictions across the dataset."
     )
 
     st.bar_chart(
@@ -511,9 +558,8 @@ if st.button(
     )
 
     st.caption(
-        "Feature importance indicates influence on the "
-        "machine-learning model's predictions and does not "
-        "imply that a factor causes diabetes."
+        "Feature importance indicates influence on the machine-learning "
+        "model's predictions and does not imply that a factor causes diabetes."
     )
 
 
