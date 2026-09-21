@@ -3,9 +3,9 @@ import pandas as pd
 from xgboost import XGBClassifier
 
 
-# -------------------------------------------------
+# =================================================
 # PAGE CONFIGURATION
-# -------------------------------------------------
+# =================================================
 
 st.set_page_config(
     page_title="Diabetes Risk Prediction",
@@ -14,57 +14,47 @@ st.set_page_config(
 )
 
 
-# -------------------------------------------------
+# =================================================
 # LOAD TRAINED MODEL
-# -------------------------------------------------
+# =================================================
 
 model = XGBClassifier()
 model.load_model("diabetes_risk_model.json")
 
 
-# -------------------------------------------------
+# =================================================
 # SESSION STATE
-# -------------------------------------------------
+# =================================================
 
-if "started" not in st.session_state:
-    st.session_state.started = False
-
-
-# -------------------------------------------------
-# FUNCTION TO CLEAR FORM VALUES
-# -------------------------------------------------
-
-def clear_form_data():
-    keys_to_clear = [
-        "BMI",
-        "Smoker",
-        "HeartDiseaseorAttack",
-        "PhysActivity",
-        "Fruits",
-        "Veggies",
-        "HvyAlcoholConsump",
-        "AnyHealthcare",
-        "NoDocbcCost",
-        "GenHlth",
-        "MentHlth",
-        "PhysHlth",
-        "DiffWalk",
-        "Sex",
-        "Age",
-        "Education",
-        "Income"
-    ]
-
-    for key in keys_to_clear:
-        if key in st.session_state:
-            del st.session_state[key]
+if "page" not in st.session_state:
+    st.session_state.page = "home"
 
 
-# -------------------------------------------------
-# WELCOME PAGE
-# -------------------------------------------------
+# =================================================
+# NAVIGATION FUNCTIONS
+# =================================================
 
-if not st.session_state.started:
+def start_app():
+    # Clear previous form values
+    st.session_state.clear()
+
+    # Move to dashboard
+    st.session_state.page = "dashboard"
+
+
+def go_home():
+    # Clear all old patient/form values
+    st.session_state.clear()
+
+    # Move back to welcome page
+    st.session_state.page = "home"
+
+
+# =================================================
+# HOME / WELCOME PAGE
+# =================================================
+
+if st.session_state.page == "home":
 
     st.title("🩺 Diabetes Risk Prediction")
 
@@ -98,51 +88,44 @@ if not st.session_state.started:
     with col2:
         st.info(
             "🤖 **ML Risk Prediction**\n\n"
-            "Estimate diabetes risk using the trained Balanced XGBoost model."
+            "Estimate diabetes risk using the trained "
+            "Balanced XGBoost model."
         )
 
     with col3:
         st.info(
             "📊 **Risk Factor Analysis**\n\n"
-            "View the factors that are influential in the model's predictions."
+            "View the factors that are influential "
+            "in the model's predictions."
         )
 
     st.write("")
 
-    if st.button(
+    st.button(
         "🚀 Get Started",
         type="primary",
-        use_container_width=True
-    ):
-
-        # Clear previous patient values
-        clear_form_data()
-
-        # Open dashboard
-        st.session_state.started = True
-
-        st.rerun()
-
-    st.caption(
-        "This application is developed for educational and research purposes."
+        use_container_width=True,
+        on_click=start_app
     )
 
+    st.caption(
+        "This application is developed for educational "
+        "and research purposes."
+    )
+
+    # Stop here so dashboard is not displayed
     st.stop()
 
 
-# -------------------------------------------------
-# DASHBOARD
-# -------------------------------------------------
+# =================================================
+# DASHBOARD PAGE
+# =================================================
 
-if st.button("← Back to Home"):
-
-    # Clear previous patient values
-    clear_form_data()
-
-    # Return to welcome page
-    st.session_state.started = False
-
-    st.rerun()
+# BACK BUTTON
+st.button(
+    "← Back to Home",
+    on_click=go_home
+)
 
 
 st.title("🩺 Diabetes Risk Prediction Dashboard")
@@ -157,18 +140,18 @@ st.success("✅ Machine Learning Model Loaded Successfully")
 st.divider()
 
 
-# -------------------------------------------------
+# =================================================
 # PATIENT DETAILS
-# -------------------------------------------------
+# =================================================
 
 st.header("👤 Patient Details")
 
 col1, col2 = st.columns(2)
 
 
-# -------------------------------------------------
-# LEFT COLUMN - HEALTH & LIFESTYLE
-# -------------------------------------------------
+# =================================================
+# LEFT COLUMN
+# =================================================
 
 with col1:
 
@@ -231,9 +214,9 @@ with col1:
     )
 
 
-# -------------------------------------------------
-# RIGHT COLUMN - GENERAL & PERSONAL INFORMATION
-# -------------------------------------------------
+# =================================================
+# RIGHT COLUMN
+# =================================================
 
 with col2:
 
@@ -328,19 +311,21 @@ with col2:
     )
 
 
-# -------------------------------------------------
+# =================================================
 # VALUE MAPPINGS
-# -------------------------------------------------
+# =================================================
 
 yes_no = {
     "No": 0,
     "Yes": 1
 }
 
+
 sex_map = {
     "Female": 0,
     "Male": 1
 }
+
 
 genhlth_map = {
     "Poor": 1,
@@ -349,6 +334,7 @@ genhlth_map = {
     "Very Good": 4,
     "Excellent": 5
 }
+
 
 age_map = {
     "18-24": 1,
@@ -366,6 +352,7 @@ age_map = {
     "80+": 13
 }
 
+
 education_map = {
     "Never attended / kindergarten only": 1,
     "Elementary (Grades 1-8)": 2,
@@ -374,6 +361,7 @@ education_map = {
     "Some College / Technical School": 5,
     "College Graduate": 6
 }
+
 
 income_map = {
     "Less than $10,000": 1,
@@ -387,9 +375,9 @@ income_map = {
 }
 
 
-# -------------------------------------------------
-# PREDICTION
-# -------------------------------------------------
+# =================================================
+# PREDICTION BUTTON
+# =================================================
 
 st.divider()
 
@@ -399,9 +387,9 @@ if st.button(
     use_container_width=True
 ):
 
-    # ---------------------------------------------
-    # INPUT VALIDATION
-    # ---------------------------------------------
+    # =============================================
+    # BMI VALIDATION
+    # =============================================
 
     if BMI == 0:
 
@@ -412,49 +400,86 @@ if st.button(
         st.stop()
 
 
-    # ---------------------------------------------
+    # =============================================
     # PREPARE INPUT DATA
-    # ---------------------------------------------
+    # =============================================
 
     input_data = pd.DataFrame([{
+
         "BMI": BMI,
-        "Smoker": yes_no[Smoker],
-        "HeartDiseaseorAttack": yes_no[HeartDiseaseorAttack],
-        "PhysActivity": yes_no[PhysActivity],
-        "Fruits": yes_no[Fruits],
-        "Veggies": yes_no[Veggies],
-        "HvyAlcoholConsump": yes_no[HvyAlcoholConsump],
-        "AnyHealthcare": yes_no[AnyHealthcare],
-        "NoDocbcCost": yes_no[NoDocbcCost],
-        "GenHlth": genhlth_map[GenHlth],
-        "MentHlth": MentHlth,
-        "PhysHlth": PhysHlth,
-        "DiffWalk": yes_no[DiffWalk],
-        "Sex": sex_map[Sex],
-        "Age": age_map[Age],
-        "Education": education_map[Education],
-        "Income": income_map[Income]
+
+        "Smoker":
+            yes_no[Smoker],
+
+        "HeartDiseaseorAttack":
+            yes_no[HeartDiseaseorAttack],
+
+        "PhysActivity":
+            yes_no[PhysActivity],
+
+        "Fruits":
+            yes_no[Fruits],
+
+        "Veggies":
+            yes_no[Veggies],
+
+        "HvyAlcoholConsump":
+            yes_no[HvyAlcoholConsump],
+
+        "AnyHealthcare":
+            yes_no[AnyHealthcare],
+
+        "NoDocbcCost":
+            yes_no[NoDocbcCost],
+
+        "GenHlth":
+            genhlth_map[GenHlth],
+
+        "MentHlth":
+            MentHlth,
+
+        "PhysHlth":
+            PhysHlth,
+
+        "DiffWalk":
+            yes_no[DiffWalk],
+
+        "Sex":
+            sex_map[Sex],
+
+        "Age":
+            age_map[Age],
+
+        "Education":
+            education_map[Education],
+
+        "Income":
+            income_map[Income]
+
     }])
 
 
-    # ---------------------------------------------
+    # =============================================
     # MODEL PREDICTION
-    # ---------------------------------------------
+    # =============================================
 
     prediction = model.predict(input_data)[0]
 
     probability = model.predict_proba(input_data)[0][1]
 
-    risk_percent = float(probability * 100)
+    risk_percent = float(
+        probability * 100
+    )
 
 
-    # ---------------------------------------------
-    # DISPLAY RESULT
-    # ---------------------------------------------
+    # =============================================
+    # PREDICTION RESULT
+    # =============================================
 
     st.header("📊 Prediction Result")
 
     result_col1, result_col2 = st.columns(2)
+
 
     with result_col1:
 
@@ -462,6 +487,7 @@ if st.button(
             "Estimated Diabetes Risk",
             f"{risk_percent:.1f}%"
         )
+
 
     with result_col2:
 
@@ -481,6 +507,7 @@ if st.button(
 
 
     st.write("### Risk Probability")
+
 
     st.progress(
         int(round(risk_percent))
@@ -509,15 +536,17 @@ if st.button(
     )
 
 
-    # ---------------------------------------------
+    # =============================================
     # RISK FACTOR ANALYSIS
-    # ---------------------------------------------
+    # =============================================
 
     st.divider()
 
     st.header("📈 Model Risk Factor Analysis")
 
+
     feature_names = [
+
         "BMI",
         "Smoker",
         "HeartDiseaseorAttack",
@@ -535,12 +564,20 @@ if st.button(
         "Age",
         "Education",
         "Income"
+
     ]
 
+
     importance_df = pd.DataFrame({
-        "Risk Factor": feature_names,
-        "Importance": model.feature_importances_
+
+        "Risk Factor":
+            feature_names,
+
+        "Importance":
+            model.feature_importances_
+
     })
+
 
     importance_df = importance_df.sort_values(
         by="Importance",
@@ -549,23 +586,26 @@ if st.button(
 
 
     st.write(
-        "The chart below shows the features that were most influential "
-        "in the model's predictions across the dataset."
+        "The chart below shows the features that were most "
+        "influential in the model's predictions across the dataset."
     )
+
 
     st.bar_chart(
         importance_df.set_index("Risk Factor")
     )
 
+
     st.caption(
-        "Feature importance indicates influence on the machine-learning "
-        "model's predictions and does not imply that a factor causes diabetes."
+        "Feature importance indicates influence on the "
+        "machine-learning model's predictions and does not "
+        "imply that a factor causes diabetes."
     )
 
 
-# -------------------------------------------------
+# =================================================
 # FOOTER
-# -------------------------------------------------
+# =================================================
 
 st.divider()
 
