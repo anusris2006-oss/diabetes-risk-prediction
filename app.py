@@ -17,17 +17,22 @@ st.set_page_config(
 # PROFESSIONAL LIGHT THEME
 # =========================================================
 
+# =========================================================
+# PROFESSIONAL CLEAN THEME
+# =========================================================
+
 st.markdown("""
 <style>
 
-/* ---------- MAIN PAGE ---------- */
+/* ========================================================
+   PAGE
+======================================================== */
 
 .stApp {
     background-color: #F4F7FA;
     color: #1F2937;
 }
 
-/* Main content width */
 .block-container {
     max-width: 1200px;
     padding-top: 2rem;
@@ -35,7 +40,9 @@ st.markdown("""
 }
 
 
-/* ---------- HEADINGS ---------- */
+/* ========================================================
+   HEADINGS
+======================================================== */
 
 h1 {
     color: #163A5F !important;
@@ -56,17 +63,21 @@ h3 {
 }
 
 
-/* ---------- NORMAL TEXT ---------- */
+/* ========================================================
+   NORMAL TEXT
+======================================================== */
 
 .stMarkdown,
 .stMarkdown p,
 .stMarkdown li {
-    color: #263746;
-    font-family: Arial, Helvetica, sans-serif;
+    color: #263746 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
 }
 
 
-/* ---------- ALL INPUT LABELS ---------- */
+/* ========================================================
+   FORM LABELS
+======================================================== */
 
 [data-testid="stWidgetLabel"],
 [data-testid="stWidgetLabel"] *,
@@ -74,132 +85,248 @@ h3 {
 .stSelectbox label *,
 .stNumberInput label,
 .stNumberInput label * {
-    color: #263746 !important;
+
+    color: #1F2937 !important;
     opacity: 1 !important;
-    -webkit-text-fill-color: #263746 !important;
-    font-weight: 600 !important;
-    font-family: Arial, Helvetica, sans-serif !important;
-}
 
-
-/* ---------- SELECT BOXES ---------- */
-
-/* Light grey background */
-div[data-baseweb="select"] > div {
-    background-color: #E9EDF2 !important;
-    border: 1px solid #CBD5E1 !important;
-    border-radius: 7px !important;
-    color: #1F2937 !important;
-}
-
-/* Text inside select box */
-div[data-baseweb="select"] span {
-    color: #1F2937 !important;
     -webkit-text-fill-color: #1F2937 !important;
+
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-weight: 600 !important;
 }
+
+
+/* ========================================================
+   SELECT BOX
+   Transparent + one complete border
+======================================================== */
+
+div[data-baseweb="select"] > div {
+
+    background: transparent !important;
+
+    border: 2px solid #5E6B78 !important;
+
+    border-radius: 8px !important;
+
+    box-shadow: none !important;
+
+    color: #1F2937 !important;
+
+    min-height: 43px !important;
+}
+
+
+/* Text inside select */
+div[data-baseweb="select"] span {
+
+    color: #1F2937 !important;
+
+    -webkit-text-fill-color: #1F2937 !important;
+
+    font-weight: 500 !important;
+}
+
 
 /* Select arrow */
 div[data-baseweb="select"] svg {
+
     fill: #374151 !important;
 }
 
 
-/* ---------- NUMBER INPUTS ---------- */
+/* Select focus */
+div[data-baseweb="select"] > div:focus-within {
 
+    border: 2px solid #163A5F !important;
+
+    box-shadow: none !important;
+}
+
+
+/* ========================================================
+   NUMBER INPUT
+   Transparent + complete uniform border
+======================================================== */
+
+.stNumberInput div[data-baseweb="input"] {
+
+    background: transparent !important;
+
+    border: 2px solid #5E6B78 !important;
+
+    border-radius: 8px !important;
+
+    box-shadow: none !important;
+
+    overflow: hidden !important;
+}
+
+
+/* Number input text */
 .stNumberInput input {
-    background-color: #E9EDF2 !important;
+
+    background: transparent !important;
+
     color: #1F2937 !important;
+
     -webkit-text-fill-color: #1F2937 !important;
+
+    border: none !important;
+
+    box-shadow: none !important;
+
+    font-weight: 500 !important;
 }
 
-/* Number input container */
-div[data-baseweb="input"] {
-    background-color: #E9EDF2 !important;
-    border-radius: 7px !important;
+
+/* Remove inner border around +/- section */
+.stNumberInput div[data-baseweb="input"] > div {
+
+    border: none !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
 }
 
-/* Plus / minus buttons */
+
+/* Plus and minus buttons */
 .stNumberInput button {
-    background-color: #E1E6EC !important;
+
+    background: transparent !important;
+
     color: #1F2937 !important;
+
+    border: none !important;
+
+    box-shadow: none !important;
 }
 
 
-/* ---------- BUTTONS ---------- */
+/* Remove borders from +/- icons */
+.stNumberInput button svg {
+
+    fill: #1F2937 !important;
+}
+
+
+/* Number input focus */
+.stNumberInput div[data-baseweb="input"]:focus-within {
+
+    border: 2px solid #163A5F !important;
+
+    box-shadow: none !important;
+}
+
+
+/* ========================================================
+   BUTTONS
+======================================================== */
 
 .stButton > button {
+
     background-color: #163A5F !important;
+
     color: #FFFFFF !important;
-    border: none !important;
-    border-radius: 7px !important;
+
+    border: 2px solid #163A5F !important;
+
+    border-radius: 8px !important;
+
     font-weight: 600 !important;
+
     padding: 0.6rem 1.2rem !important;
+
+    box-shadow: none !important;
 }
+
 
 .stButton > button p {
+
     color: #FFFFFF !important;
 }
+
 
 .stButton > button:hover {
+
     background-color: #21577D !important;
+
+    border-color: #21577D !important;
+
     color: #FFFFFF !important;
 }
 
 
-/* ---------- METRIC CARDS ---------- */
+/* ========================================================
+   METRIC CARDS
+======================================================== */
 
 div[data-testid="stMetric"] {
-    background-color: #FFFFFF;
-    border: 1px solid #D6DEE7;
-    border-radius: 10px;
-    padding: 20px;
+
+    background-color: #FFFFFF !important;
+
+    border: 1px solid #D6DEE7 !important;
+
+    border-radius: 10px !important;
+
+    padding: 20px !important;
 }
+
 
 div[data-testid="stMetricLabel"],
 div[data-testid="stMetricLabel"] * {
+
     color: #536471 !important;
 }
 
+
 div[data-testid="stMetricValue"],
 div[data-testid="stMetricValue"] * {
+
     color: #163A5F !important;
+
     font-weight: 700 !important;
 }
 
 
-/* ---------- ALERT BOXES ---------- */
-
-div[data-testid="stAlert"] {
-    border-radius: 8px;
-}
-
-
-/* ---------- EXPANDERS ---------- */
+/* ========================================================
+   EXPANDERS
+======================================================== */
 
 div[data-testid="stExpander"] {
-    background-color: #FFFFFF;
-    border: 1px solid #D6DEE7;
-    border-radius: 8px;
+
+    background-color: #FFFFFF !important;
+
+    border: 1px solid #D6DEE7 !important;
+
+    border-radius: 8px !important;
 }
 
 
-/* ---------- DIVIDER ---------- */
+/* ========================================================
+   DIVIDERS
+======================================================== */
 
 hr {
-    border: none;
-    border-top: 1px solid #D6DEE7;
+
+    border: none !important;
+
+    border-top: 1px solid #D6DEE7 !important;
 }
 
 
-/* ---------- TOP STREAMLIT HEADER ---------- */
+/* ========================================================
+   STREAMLIT HEADER
+======================================================== */
 
 header[data-testid="stHeader"] {
-    background-color: transparent;
+
+    background-color: transparent !important;
 }
 
 </style>
 """, unsafe_allow_html=True)
-
 
 # =========================================================
 # LOAD MODEL
