@@ -17,14 +17,23 @@ st.set_page_config(
 # 2. PROFESSIONAL THEME
 # =========================================================
 
+# =========================================================
+# PROFESSIONAL THEME
+# =========================================================
+
 st.markdown("""
 <style>
 
-/* Main application */
+/* Main background */
 .stApp {
     background-color: #F6F8FB;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #1F2937;
+}
+
+/* Main content */
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+    max-width: 1200px;
 }
 
 /* Main title */
@@ -32,14 +41,13 @@ h1 {
     color: #123A5A !important;
     font-family: Arial, Helvetica, sans-serif !important;
     font-weight: 700 !important;
-    letter-spacing: -0.5px;
 }
 
 /* Section headings */
 h2 {
     color: #174A70 !important;
     font-family: Arial, Helvetica, sans-serif !important;
-    font-weight: 650 !important;
+    font-weight: 700 !important;
 }
 
 h3 {
@@ -48,43 +56,31 @@ h3 {
     font-weight: 600 !important;
 }
 
-/* General font */
-p, label, span {
+/* Normal paragraph text */
+.stMarkdown p {
+    color: #263746;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+/* IMPORTANT - Input field labels */
+div[data-testid="stWidgetLabel"] p {
+    color: #1F2937 !important;
+    font-weight: 600 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
 }
 
 /* Buttons */
 .stButton > button {
-    background-color: #123A5A;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    padding: 0.65rem 1.2rem;
-    font-size: 16px;
-    font-weight: 600;
-    transition: 0.2s;
+    background-color: #123A5A !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 7px !important;
+    font-weight: 600 !important;
 }
 
 .stButton > button:hover {
-    background-color: #1B5278;
-    color: white;
-    border: none;
-}
-
-.stButton > button:focus {
-    color: white;
-}
-
-/* Number input */
-div[data-baseweb="input"] > div {
-    background-color: white;
-    border-radius: 7px;
-}
-
-/* Select box */
-div[data-baseweb="select"] > div {
-    background-color: white;
-    border-radius: 7px;
+    background-color: #1B5278 !important;
+    color: white !important;
 }
 
 /* Metric cards */
@@ -95,19 +91,15 @@ div[data-testid="stMetric"] {
     border-radius: 10px;
 }
 
-div[data-testid="stMetricLabel"] {
-    color: #536471;
-    font-weight: 600;
+/* Metric labels */
+div[data-testid="stMetricLabel"] p {
+    color: #536471 !important;
 }
 
+/* Metric values */
 div[data-testid="stMetricValue"] {
-    color: #123A5A;
+    color: #123A5A !important;
     font-weight: 700;
-}
-
-/* Alerts */
-div[data-testid="stAlert"] {
-    border-radius: 8px;
 }
 
 /* Expanders */
@@ -121,20 +113,11 @@ div[data-testid="stExpander"] {
 hr {
     border: none;
     border-top: 1px solid #DCE3EA;
-    margin-top: 25px;
-    margin-bottom: 25px;
 }
 
-/* Streamlit header */
+/* Streamlit top header */
 header[data-testid="stHeader"] {
     background-color: transparent;
-}
-
-/* Main content */
-.block-container {
-    padding-top: 2rem;
-    padding-bottom: 3rem;
-    max-width: 1200px;
 }
 
 </style>
