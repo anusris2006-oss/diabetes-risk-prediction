@@ -4,18 +4,145 @@ from xgboost import XGBClassifier
 
 
 # =========================================================
-# PAGE CONFIGURATION
+# 1. PAGE CONFIGURATION
 # =========================================================
 
 st.set_page_config(
     page_title="Diabetes Risk Prediction",
-    page_icon="🩺",
     layout="wide"
 )
 
 
 # =========================================================
-# LOAD TRAINED MODEL
+# 2. PROFESSIONAL THEME
+# =========================================================
+
+st.markdown("""
+<style>
+
+/* Main application */
+.stApp {
+    background-color: #F6F8FB;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #1F2937;
+}
+
+/* Main title */
+h1 {
+    color: #123A5A !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.5px;
+}
+
+/* Section headings */
+h2 {
+    color: #174A70 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-weight: 650 !important;
+}
+
+h3 {
+    color: #245C7C !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-weight: 600 !important;
+}
+
+/* General font */
+p, label, span {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Buttons */
+.stButton > button {
+    background-color: #123A5A;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 0.65rem 1.2rem;
+    font-size: 16px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.stButton > button:hover {
+    background-color: #1B5278;
+    color: white;
+    border: none;
+}
+
+.stButton > button:focus {
+    color: white;
+}
+
+/* Number input */
+div[data-baseweb="input"] > div {
+    background-color: white;
+    border-radius: 7px;
+}
+
+/* Select box */
+div[data-baseweb="select"] > div {
+    background-color: white;
+    border-radius: 7px;
+}
+
+/* Metric cards */
+div[data-testid="stMetric"] {
+    background-color: white;
+    border: 1px solid #D9E2EA;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+div[data-testid="stMetricLabel"] {
+    color: #536471;
+    font-weight: 600;
+}
+
+div[data-testid="stMetricValue"] {
+    color: #123A5A;
+    font-weight: 700;
+}
+
+/* Alerts */
+div[data-testid="stAlert"] {
+    border-radius: 8px;
+}
+
+/* Expanders */
+div[data-testid="stExpander"] {
+    background-color: white;
+    border: 1px solid #D9E2EA;
+    border-radius: 8px;
+}
+
+/* Dividers */
+hr {
+    border: none;
+    border-top: 1px solid #DCE3EA;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+/* Streamlit header */
+header[data-testid="stHeader"] {
+    background-color: transparent;
+}
+
+/* Main content */
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+    max-width: 1200px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
+# =========================================================
+# 3. LOAD TRAINED MODEL
 # =========================================================
 
 model = XGBClassifier()
@@ -23,7 +150,7 @@ model.load_model("diabetes_risk_model.json")
 
 
 # =========================================================
-# SESSION STATE
+# 4. SESSION STATE
 # =========================================================
 
 if "page" not in st.session_state:
@@ -31,71 +158,69 @@ if "page" not in st.session_state:
 
 
 # =========================================================
-# NAVIGATION FUNCTIONS
+# 5. NAVIGATION FUNCTIONS
 # =========================================================
 
 def start_app():
-    """
-    Clear old values and open a fresh dashboard.
-    """
+    # Clear previous form values
     st.session_state.clear()
+
+    # Open dashboard
     st.session_state.page = "dashboard"
 
 
 def go_home():
-    """
-    Clear patient details and return to the welcome page.
-    """
+    # Clear patient details
     st.session_state.clear()
+
+    # Return to home
     st.session_state.page = "home"
 
 
 # =========================================================
-# HOME / WELCOME PAGE
+# 6. HOME PAGE
 # =========================================================
 
 if st.session_state.page == "home":
 
-    st.title("🩺 Diabetes Risk Prediction")
+    st.title("Diabetes Risk Prediction System")
 
     st.subheader(
-        "Machine Learning-Based Diabetes Risk Prediction, "
+        "Machine Learning-Based Risk Prediction, "
         "Risk Factor Analysis and Health Guidance"
     )
 
     st.write(
         """
-        Welcome to the **Diabetes Risk Prediction System**.
-
         This application uses machine learning to estimate diabetes risk
         based on health, lifestyle, and demographic information.
 
-        The system uses a **Balanced XGBoost Model** to estimate diabetes
+        The system uses a **Balanced XGBoost model** to estimate diabetes
         risk, analyse important risk factors, and provide general
         preventive lifestyle guidance.
         """
     )
 
-    st.write("### 🔍 What does this system provide?")
+    st.write("### System Features")
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
         st.info(
-            "📋 **Health Assessment**\n\n"
-            "Enter health, lifestyle, and personal information."
+            "**Health Assessment**\n\n"
+            "Enter health, lifestyle, and demographic information."
         )
 
     with col2:
         st.info(
-            "🤖 **ML Risk Prediction**\n\n"
+            "**Machine Learning Prediction**\n\n"
             "Estimate diabetes risk using the trained "
             "Balanced XGBoost model."
         )
 
     with col3:
         st.info(
-            "🌿 **Health Guidance**\n\n"
+            "**Personalized Health Guidance**\n\n"
             "Receive general preventive lifestyle guidance "
             "based on the information entered."
         )
@@ -103,64 +228,61 @@ if st.session_state.page == "home":
     st.write("")
 
     st.button(
-        "🚀 Get Started",
+        "Get Started",
         type="primary",
         use_container_width=True,
         on_click=start_app
     )
 
     st.caption(
-        "This application is developed for educational "
-        "and research purposes."
+        "Developed for educational and research purposes."
     )
 
     st.stop()
 
 
 # =========================================================
-# DASHBOARD
+# 7. DASHBOARD
 # =========================================================
 
 st.button(
-    "← Back to Home",
+    "Back to Home",
     on_click=go_home
 )
 
-st.title("🩺 Diabetes Risk Prediction Dashboard")
+st.title("Diabetes Risk Prediction Dashboard")
 
 st.write(
-    "Enter the details below to estimate diabetes risk "
-    "using the trained Balanced XGBoost model."
+    "Complete all the fields below to estimate diabetes risk."
 )
 
-st.success("✅ Machine Learning Model Loaded Successfully")
+st.info(
+    "All fields are required before a prediction can be generated."
+)
 
 st.divider()
 
 
 # =========================================================
-# PATIENT DETAILS
+# 8. PATIENT DETAILS
 # =========================================================
 
-st.header("👤 Patient Details")
+st.header("Patient Details")
 
 col1, col2 = st.columns(2)
 
 
 # =========================================================
-# LEFT COLUMN - HEALTH & LIFESTYLE
+# 9. LEFT COLUMN - HEALTH AND LIFESTYLE
 # =========================================================
 
 with col1:
 
-    st.subheader("🏃 Health & Lifestyle")
+    st.subheader("Health and Lifestyle Information")
 
-    # -----------------------------------------------------
-    # HEIGHT
-    # -----------------------------------------------------
-
+    # Height
     Height = st.number_input(
-        "Height (cm)",
+        "Height (cm) *",
         min_value=0.0,
         max_value=250.0,
         value=0.0,
@@ -168,18 +290,16 @@ with col1:
         key="Height"
     )
 
-    # -----------------------------------------------------
-    # WEIGHT
-    # -----------------------------------------------------
-
+    # Weight
     Weight = st.number_input(
-        "Weight (kg)",
+        "Weight (kg) *",
         min_value=0.0,
         max_value=300.0,
         value=0.0,
         step=0.1,
         key="Weight"
     )
+
 
     # -----------------------------------------------------
     # AUTOMATIC BMI CALCULATION
@@ -192,7 +312,7 @@ with col1:
         BMI = Weight / (height_in_meters ** 2)
 
         st.info(
-            f"⚖️ Calculated BMI: **{BMI:.1f}**"
+            f"Calculated BMI: {BMI:.1f}"
         )
 
     else:
@@ -201,69 +321,70 @@ with col1:
 
 
     # -----------------------------------------------------
-    # OTHER HEALTH & LIFESTYLE INPUTS
+    # HEALTH AND LIFESTYLE QUESTIONS
     # -----------------------------------------------------
 
     Smoker = st.selectbox(
-        "Smoker",
-        ["No", "Yes"],
+        "Smoker *",
+        ["Select", "No", "Yes"],
         key="Smoker"
     )
 
     HeartDiseaseorAttack = st.selectbox(
-        "Heart Disease or Attack",
-        ["No", "Yes"],
+        "Heart Disease or Previous Heart Attack *",
+        ["Select", "No", "Yes"],
         key="HeartDiseaseorAttack"
     )
 
     PhysActivity = st.selectbox(
-        "Physical Activity",
-        ["Yes", "No"],
+        "Physical Activity *",
+        ["Select", "No", "Yes"],
         key="PhysActivity"
     )
 
     Fruits = st.selectbox(
-        "Consume Fruits",
-        ["Yes", "No"],
+        "Regular Fruit Consumption *",
+        ["Select", "No", "Yes"],
         key="Fruits"
     )
 
     Veggies = st.selectbox(
-        "Consume Vegetables",
-        ["Yes", "No"],
+        "Regular Vegetable Consumption *",
+        ["Select", "No", "Yes"],
         key="Veggies"
     )
 
     HvyAlcoholConsump = st.selectbox(
-        "Heavy Alcohol Consumption",
-        ["No", "Yes"],
+        "Heavy Alcohol Consumption *",
+        ["Select", "No", "Yes"],
         key="HvyAlcoholConsump"
     )
 
     AnyHealthcare = st.selectbox(
-        "Any Healthcare Coverage",
-        ["Yes", "No"],
+        "Healthcare Coverage *",
+        ["Select", "No", "Yes"],
         key="AnyHealthcare"
     )
 
     NoDocbcCost = st.selectbox(
-        "Could Not See Doctor Due to Cost",
-        ["No", "Yes"],
+        "Unable to See a Doctor Due to Cost *",
+        ["Select", "No", "Yes"],
         key="NoDocbcCost"
     )
 
 
 # =========================================================
-# RIGHT COLUMN - GENERAL & PERSONAL INFORMATION
+# 10. RIGHT COLUMN - GENERAL AND PERSONAL INFORMATION
 # =========================================================
 
 with col2:
 
-    st.subheader("👤 General & Personal Information")
+    st.subheader("General and Personal Information")
 
     GenHlth = st.selectbox(
-        "General Health",
+        "General Health *",
         [
+            "Select",
             "Excellent",
             "Very Good",
             "Good",
@@ -273,37 +394,43 @@ with col2:
         key="GenHlth"
     )
 
-    MentHlth = st.number_input(
-        "Mental Health - Poor Days (0-30)",
-        min_value=0,
-        max_value=30,
-        value=0,
+
+    # Mental Health Days
+    mental_health_options = ["Select"] + list(range(0, 31))
+
+    MentHlth = st.selectbox(
+        "Poor Mental Health Days in the Last 30 Days *",
+        mental_health_options,
         key="MentHlth"
     )
 
-    PhysHlth = st.number_input(
-        "Physical Health - Poor Days (0-30)",
-        min_value=0,
-        max_value=30,
-        value=0,
+
+    # Physical Health Days
+    physical_health_options = ["Select"] + list(range(0, 31))
+
+    PhysHlth = st.selectbox(
+        "Poor Physical Health Days in the Last 30 Days *",
+        physical_health_options,
         key="PhysHlth"
     )
 
+
     DiffWalk = st.selectbox(
-        "Difficulty Walking",
-        ["No", "Yes"],
+        "Difficulty Walking *",
+        ["Select", "No", "Yes"],
         key="DiffWalk"
     )
 
     Sex = st.selectbox(
-        "Sex",
-        ["Female", "Male"],
+        "Sex *",
+        ["Select", "Female", "Male"],
         key="Sex"
     )
 
     Age = st.selectbox(
-        "Age Group",
+        "Age Group *",
         [
+            "Select",
             "18-24",
             "25-29",
             "30-34",
@@ -322,8 +449,9 @@ with col2:
     )
 
     Education = st.selectbox(
-        "Education",
+        "Education Level *",
         [
+            "Select",
             "Never attended / kindergarten only",
             "Elementary (Grades 1-8)",
             "Some High School (Grades 9-11)",
@@ -335,8 +463,9 @@ with col2:
     )
 
     Income = st.selectbox(
-        "Income",
+        "Income Range *",
         [
+            "Select",
             "Less than $10,000",
             "$10,000 to less than $15,000",
             "$15,000 to less than $20,000",
@@ -350,8 +479,11 @@ with col2:
     )
 
 
+st.caption("* Required field")
+
+
 # =========================================================
-# VALUE MAPPINGS
+# 11. MODEL VALUE MAPPINGS
 # =========================================================
 
 yes_no = {
@@ -359,10 +491,12 @@ yes_no = {
     "Yes": 1
 }
 
+
 sex_map = {
     "Female": 0,
     "Male": 1
 }
+
 
 genhlth_map = {
     "Poor": 1,
@@ -371,6 +505,7 @@ genhlth_map = {
     "Very Good": 4,
     "Excellent": 5
 }
+
 
 age_map = {
     "18-24": 1,
@@ -388,6 +523,7 @@ age_map = {
     "80+": 13
 }
 
+
 education_map = {
     "Never attended / kindergarten only": 1,
     "Elementary (Grades 1-8)": 2,
@@ -396,6 +532,7 @@ education_map = {
     "Some College / Technical School": 5,
     "College Graduate": 6
 }
+
 
 income_map = {
     "Less than $10,000": 1,
@@ -410,92 +547,227 @@ income_map = {
 
 
 # =========================================================
-# PREDICTION SECTION
+# 12. PREDICTION BUTTON
 # =========================================================
 
 st.divider()
 
 if st.button(
-    "🔍 Predict Diabetes Risk",
+    "Predict Diabetes Risk",
     type="primary",
     use_container_width=True
 ):
 
     # =====================================================
-    # INPUT VALIDATION
+    # 13. REQUIRED FIELD VALIDATION
     # =====================================================
 
-    if Height == 0 and Weight == 0:
+    missing_fields = []
 
-        st.warning(
-            "⚠️ Please enter your height and weight "
-            "before making a prediction."
+
+    if Height <= 0:
+        missing_fields.append("Height")
+
+
+    if Weight <= 0:
+        missing_fields.append("Weight")
+
+
+    if Smoker == "Select":
+        missing_fields.append("Smoker")
+
+
+    if HeartDiseaseorAttack == "Select":
+        missing_fields.append(
+            "Heart Disease or Previous Heart Attack"
         )
 
-        st.stop()
 
-    elif Height == 0:
+    if PhysActivity == "Select":
+        missing_fields.append("Physical Activity")
 
-        st.warning(
-            "⚠️ Please enter your height before making a prediction."
+
+    if Fruits == "Select":
+        missing_fields.append("Fruit Consumption")
+
+
+    if Veggies == "Select":
+        missing_fields.append("Vegetable Consumption")
+
+
+    if HvyAlcoholConsump == "Select":
+        missing_fields.append(
+            "Heavy Alcohol Consumption"
         )
 
-        st.stop()
 
-    elif Weight == 0:
-
-        st.warning(
-            "⚠️ Please enter your weight before making a prediction."
+    if AnyHealthcare == "Select":
+        missing_fields.append(
+            "Healthcare Coverage"
         )
+
+
+    if NoDocbcCost == "Select":
+        missing_fields.append(
+            "Doctor Access Due to Cost"
+        )
+
+
+    if GenHlth == "Select":
+        missing_fields.append(
+            "General Health"
+        )
+
+
+    if MentHlth == "Select":
+        missing_fields.append(
+            "Mental Health Days"
+        )
+
+
+    if PhysHlth == "Select":
+        missing_fields.append(
+            "Physical Health Days"
+        )
+
+
+    if DiffWalk == "Select":
+        missing_fields.append(
+            "Difficulty Walking"
+        )
+
+
+    if Sex == "Select":
+        missing_fields.append("Sex")
+
+
+    if Age == "Select":
+        missing_fields.append("Age Group")
+
+
+    if Education == "Select":
+        missing_fields.append(
+            "Education Level"
+        )
+
+
+    if Income == "Select":
+        missing_fields.append(
+            "Income Range"
+        )
+
+
+    # =====================================================
+    # 14. STOP IF FIELDS ARE MISSING
+    # =====================================================
+
+    if missing_fields:
+
+        st.error(
+            "Please complete all required fields before "
+            "generating a prediction."
+        )
+
+        st.write("**Missing fields:**")
+
+        for field in missing_fields:
+
+            st.write(
+                f"- {field}"
+            )
 
         st.stop()
 
 
     # =====================================================
-    # PREPARE MODEL INPUT
+    # 15. PREPARE MODEL INPUT
     # =====================================================
 
     input_data = pd.DataFrame([{
+
         "BMI": BMI,
-        "Smoker": yes_no[Smoker],
-        "HeartDiseaseorAttack": yes_no[HeartDiseaseorAttack],
-        "PhysActivity": yes_no[PhysActivity],
-        "Fruits": yes_no[Fruits],
-        "Veggies": yes_no[Veggies],
-        "HvyAlcoholConsump": yes_no[HvyAlcoholConsump],
-        "AnyHealthcare": yes_no[AnyHealthcare],
-        "NoDocbcCost": yes_no[NoDocbcCost],
-        "GenHlth": genhlth_map[GenHlth],
-        "MentHlth": MentHlth,
-        "PhysHlth": PhysHlth,
-        "DiffWalk": yes_no[DiffWalk],
-        "Sex": sex_map[Sex],
-        "Age": age_map[Age],
-        "Education": education_map[Education],
-        "Income": income_map[Income]
+
+        "Smoker":
+            yes_no[Smoker],
+
+        "HeartDiseaseorAttack":
+            yes_no[HeartDiseaseorAttack],
+
+        "PhysActivity":
+            yes_no[PhysActivity],
+
+        "Fruits":
+            yes_no[Fruits],
+
+        "Veggies":
+            yes_no[Veggies],
+
+        "HvyAlcoholConsump":
+            yes_no[HvyAlcoholConsump],
+
+        "AnyHealthcare":
+            yes_no[AnyHealthcare],
+
+        "NoDocbcCost":
+            yes_no[NoDocbcCost],
+
+        "GenHlth":
+            genhlth_map[GenHlth],
+
+        "MentHlth":
+            MentHlth,
+
+        "PhysHlth":
+            PhysHlth,
+
+        "DiffWalk":
+            yes_no[DiffWalk],
+
+        "Sex":
+            sex_map[Sex],
+
+        "Age":
+            age_map[Age],
+
+        "Education":
+            education_map[Education],
+
+        "Income":
+            income_map[Income]
+
     }])
 
 
     # =====================================================
-    # MODEL PREDICTION
+    # 16. MODEL PREDICTION
     # =====================================================
 
-    prediction = model.predict(input_data)[0]
+    prediction = model.predict(
+        input_data
+    )[0]
 
-    probability = model.predict_proba(input_data)[0][1]
 
-    risk_percent = float(probability * 100)
+    probability = model.predict_proba(
+        input_data
+    )[0][1]
+
+
+    risk_percent = float(
+        probability * 100
+    )
 
 
     # =====================================================
-    # PREDICTION RESULT
+    # 17. PREDICTION RESULT
     # =====================================================
 
     st.divider()
 
-    st.header("📊 Prediction Result")
+    st.header("Prediction Result")
+
 
     result_col1, result_col2, result_col3 = st.columns(3)
+
 
     with result_col1:
 
@@ -504,6 +776,7 @@ if st.button(
             f"{BMI:.1f}"
         )
 
+
     with result_col2:
 
         st.metric(
@@ -511,74 +784,84 @@ if st.button(
             f"{risk_percent:.1f}%"
         )
 
+
     with result_col3:
 
         if prediction == 1:
 
             st.metric(
-                "Model Prediction",
+                "Risk Classification",
                 "Higher Risk"
             )
 
         else:
 
             st.metric(
-                "Model Prediction",
+                "Risk Classification",
                 "Lower Risk"
             )
 
 
-    # -----------------------------------------------------
-    # RISK PROBABILITY BAR
-    # -----------------------------------------------------
+    # =====================================================
+    # 18. RISK PROBABILITY
+    # =====================================================
 
-    st.write("### Risk Probability")
+    st.subheader(
+        "Risk Probability"
+    )
 
-    progress_value = int(round(risk_percent))
+
+    progress_value = int(
+        round(risk_percent)
+    )
+
 
     progress_value = max(
         0,
         min(progress_value, 100)
     )
 
-    st.progress(progress_value)
 
+    st.progress(
+        progress_value
+    )
 
-    # -----------------------------------------------------
-    # MODEL RESULT MESSAGE
-    # -----------------------------------------------------
 
     if prediction == 1:
 
         st.warning(
-            "⚠️ The model predicts a higher likelihood "
+            "The model indicates a higher likelihood "
             "of diabetes risk."
         )
 
     else:
 
         st.success(
-            "✅ The model predicts a lower likelihood "
+            "The model indicates a lower likelihood "
             "of diabetes risk."
         )
 
 
-    st.info(
-        "ℹ️ This prediction is generated by a machine-learning "
-        "model for educational and research purposes only. "
-        "It should not be considered a medical diagnosis."
+    st.caption(
+        "The prediction is generated by a machine-learning "
+        "model for educational and research purposes and "
+        "should not be considered a medical diagnosis."
     )
 
 
     # =====================================================
-    # MODEL RISK FACTOR ANALYSIS
+    # 19. MODEL RISK FACTOR ANALYSIS
     # =====================================================
 
     st.divider()
 
-    st.header("📈 Model Risk Factor Analysis")
+    st.header(
+        "Model Risk Factor Analysis"
+    )
+
 
     feature_names = [
+
         "BMI",
         "Smoker",
         "HeartDiseaseorAttack",
@@ -596,71 +879,91 @@ if st.button(
         "Age",
         "Education",
         "Income"
+
     ]
 
+
     importance_df = pd.DataFrame({
-        "Risk Factor": feature_names,
-        "Importance": model.feature_importances_
+
+        "Risk Factor":
+            feature_names,
+
+        "Importance":
+            model.feature_importances_
+
     })
+
 
     importance_df = importance_df.sort_values(
         by="Importance",
         ascending=False
     ).head(10)
 
+
     st.write(
-        "The chart below shows the features that were most "
-        "influential in the model's predictions across the dataset."
+        "The chart below shows the features that were "
+        "most influential in the trained model across "
+        "the dataset."
     )
+
 
     st.bar_chart(
-        importance_df.set_index("Risk Factor")
+        importance_df.set_index(
+            "Risk Factor"
+        )
     )
 
+
     st.caption(
-        "Feature importance indicates influence on the "
-        "machine-learning model's predictions and does not "
-        "imply that a factor causes diabetes."
+        "Feature importance represents influence within "
+        "the machine-learning model. It does not establish "
+        "that a factor causes diabetes."
     )
 
 
     # =====================================================
-    # PERSONALIZED HEALTH GUIDANCE
+    # 20. PERSONALIZED HEALTH GUIDANCE
     # =====================================================
 
     st.divider()
 
-    st.header("🌿 Personalized Health Guidance")
-
-    st.write(
-        "Based on the information you entered, this section "
-        "highlights lifestyle areas that may deserve attention "
-        "and positive habits that can be maintained."
+    st.header(
+        "Personalized Health Guidance"
     )
 
+
+    st.write(
+        "Based on the information entered, the following "
+        "section highlights lifestyle areas that may deserve "
+        "attention and positive habits that can be maintained."
+    )
+
+
     st.caption(
-        "The guidance below is general preventive information "
-        "and is not an individualized medical or treatment plan."
+        "This section provides general preventive information, "
+        "not an individualized medical treatment plan."
     )
 
 
     # =====================================================
-    # ATTENTION AREAS & POSITIVE HABITS
+    # 21. IDENTIFY HEALTH AREAS
     # =====================================================
 
     attention_areas = []
+
     positive_habits = []
 
 
     # -----------------------------------------------------
-    # BMI / WEIGHT MANAGEMENT
+    # BMI
     # -----------------------------------------------------
 
     if BMI >= 25:
 
         attention_areas.append(
             (
-                "⚖️ Weight Management",
+                "Weight Management",
+
                 f"Your calculated BMI is {BMI:.1f}. "
                 "Consider focusing on sustainable healthy-weight "
                 "habits through balanced food choices and regular "
@@ -668,21 +971,24 @@ if st.button(
             )
         )
 
-    elif BMI >= 18.5:
 
-        positive_habits.append(
-            f"⚖️ Your calculated BMI is {BMI:.1f}."
-        )
-
-    else:
+    elif BMI < 18.5:
 
         attention_areas.append(
             (
-                "⚖️ Weight & Nutrition",
+                "Weight and Nutrition",
+
                 f"Your calculated BMI is {BMI:.1f}. "
                 "Consider discussing healthy weight and nutrition "
                 "with an appropriate healthcare professional."
             )
+        )
+
+
+    else:
+
+        positive_habits.append(
+            f"Calculated BMI: {BMI:.1f}"
         )
 
 
@@ -694,62 +1000,68 @@ if st.button(
 
         attention_areas.append(
             (
-                "🏃 Physical Activity",
-                "You reported that you are not currently physically "
-                "active. Consider gradually building regular physical "
-                "activity into your routine according to your ability "
-                "and health status."
+                "Physical Activity",
+
+                "You reported no regular physical activity. "
+                "Consider gradually building regular physical "
+                "activity into your routine according to your "
+                "current ability and health status."
             )
         )
+
 
     else:
 
         positive_habits.append(
-            "🏃 You reported being physically active."
+            "Regular physical activity reported"
         )
 
 
     # -----------------------------------------------------
-    # FRUIT INTAKE
+    # FRUIT
     # -----------------------------------------------------
 
     if Fruits == "No":
 
         attention_areas.append(
             (
-                "🍎 Fruit Intake",
-                "You reported not regularly consuming fruit. "
-                "Consider including a greater variety of nutritious "
-                "foods, including suitable whole fruits."
+                "Fruit Intake",
+
+                "You reported that you do not regularly consume "
+                "fruit. Consider improving dietary variety by "
+                "including appropriate whole fruits."
             )
         )
+
 
     else:
 
         positive_habits.append(
-            "🍎 You reported regular fruit consumption."
+            "Regular fruit consumption reported"
         )
 
 
     # -----------------------------------------------------
-    # VEGETABLE INTAKE
+    # VEGETABLES
     # -----------------------------------------------------
 
     if Veggies == "No":
 
         attention_areas.append(
             (
-                "🥦 Vegetable Intake",
-                "You reported not regularly consuming vegetables. "
-                "Consider increasing the variety of vegetables "
-                "in your overall eating pattern."
+                "Vegetable Intake",
+
+                "You reported that you do not regularly consume "
+                "vegetables. Consider increasing the variety of "
+                "vegetables in your overall eating pattern."
             )
         )
+
 
     else:
 
         positive_habits.append(
-            "🥦 You reported regular vegetable consumption."
+            "Regular vegetable consumption reported"
         )
 
 
@@ -761,39 +1073,44 @@ if st.button(
 
         attention_areas.append(
             (
-                "🚭 Smoking",
-                "You reported a history of smoking. Avoiding tobacco "
-                "and seeking appropriate smoking-cessation support "
-                "can be an important part of improving overall health."
+                "Smoking",
+
+                "You reported a history of smoking. Avoiding "
+                "tobacco and seeking appropriate smoking-cessation "
+                "support can contribute to improved overall health."
             )
         )
+
 
     else:
 
         positive_habits.append(
-            "🚭 You reported no smoking history."
+            "No smoking history reported"
         )
 
 
     # -----------------------------------------------------
-    # HEAVY ALCOHOL CONSUMPTION
+    # ALCOHOL
     # -----------------------------------------------------
 
     if HvyAlcoholConsump == "Yes":
 
         attention_areas.append(
             (
-                "⚠️ Heavy Alcohol Consumption",
-                "You reported heavy alcohol consumption. Consider "
-                "discussing alcohol use with a qualified healthcare "
-                "professional and following appropriate health guidance."
+                "Heavy Alcohol Consumption",
+
+                "You reported heavy alcohol consumption. "
+                "Consider discussing alcohol use with a qualified "
+                "healthcare professional and following appropriate "
+                "health guidance."
             )
         )
+
 
     else:
 
         positive_habits.append(
-            "✅ No heavy alcohol consumption reported."
+            "No heavy alcohol consumption reported"
         )
 
 
@@ -805,33 +1122,29 @@ if st.button(
 
         attention_areas.append(
             (
-                "❤️ General Health",
+                "General Health",
+
                 f"You rated your general health as {GenHlth}. "
-                "Regular health monitoring and discussion with a "
-                "qualified healthcare professional may be useful."
+                "Regular health monitoring and discussion with "
+                "a qualified healthcare professional may be useful."
             )
-        )
-
-    elif GenHlth in ["Excellent", "Very Good"]:
-
-        positive_habits.append(
-            f"❤️ You rated your general health as {GenHlth}."
         )
 
 
     # -----------------------------------------------------
-    # PHYSICAL HEALTH DAYS
+    # PHYSICAL HEALTH
     # -----------------------------------------------------
 
     if PhysHlth >= 10:
 
         attention_areas.append(
             (
-                "🩺 Physical Well-being",
-                f"You reported {PhysHlth} poor physical-health days "
-                "during the last 30 days. Consider discussing persistent "
-                "physical-health concerns with a qualified healthcare "
-                "professional."
+                "Physical Well-being",
+
+                f"You reported {PhysHlth} poor physical-health "
+                "days during the last 30 days. Persistent physical "
+                "health concerns may be worth discussing with a "
+                "qualified healthcare professional."
             )
         )
 
@@ -844,26 +1157,31 @@ if st.button(
 
         attention_areas.append(
             (
-                "🚶 Mobility",
+                "Mobility",
+
                 "You reported difficulty walking. Physical activity "
-                "recommendations should take your mobility and current "
+                "choices should take your mobility and current "
                 "health status into account."
             )
         )
 
 
     # =====================================================
-    # AREAS THAT MAY NEED ATTENTION
+    # 22. AREAS THAT MAY NEED ATTENTION
     # =====================================================
 
-    st.subheader("⚠️ Areas That May Need Attention")
+    st.subheader(
+        "Areas That May Need Attention"
+    )
+
 
     if len(attention_areas) == 0:
 
         st.success(
-            "No major modifiable lifestyle concerns were identified "
-            "from the selected factors."
+            "No major modifiable lifestyle concerns were "
+            "identified from the selected factors."
         )
+
 
     else:
 
@@ -874,33 +1192,43 @@ if st.button(
                 expanded=True
             ):
 
-                st.write(message)
+                st.write(
+                    message
+                )
 
 
     # =====================================================
-    # HEALTHY EATING GUIDANCE
+    # 23. HEALTHY EATING GUIDANCE
     # =====================================================
 
-    st.subheader("🥗 Healthy Eating Guidance")
+    st.subheader(
+        "Healthy Eating Guidance"
+    )
+
 
     if Fruits == "No" and Veggies == "No":
 
         st.warning(
-            "Your responses indicate that both fruit and vegetable "
-            "intake may need attention."
+            "Your responses indicate that both fruit and "
+            "vegetable intake may need attention."
         )
+
 
     elif Fruits == "No":
 
         st.warning(
-            "Your responses indicate that fruit intake may need attention."
+            "Your responses indicate that fruit intake "
+            "may need attention."
         )
+
 
     elif Veggies == "No":
 
         st.warning(
-            "Your responses indicate that vegetable intake may need attention."
+            "Your responses indicate that vegetable intake "
+            "may need attention."
         )
+
 
     else:
 
@@ -912,7 +1240,7 @@ if st.button(
 
     st.markdown(
         """
-**General healthy-eating principles:**
+**General healthy-eating principles**
 
 - Include a variety of vegetables and suitable whole fruits.
 - Choose whole grains and other higher-fibre foods where appropriate.
@@ -927,29 +1255,33 @@ if st.button(
 
 
     # =====================================================
-    # PHYSICAL ACTIVITY GUIDANCE
+    # 24. PHYSICAL ACTIVITY GUIDANCE
     # =====================================================
 
     st.subheader(
-        "🏃 Physical Activity & Lifestyle Guidance"
+        "Physical Activity and Lifestyle Guidance"
     )
+
 
     if DiffWalk == "Yes":
 
         st.warning(
             "You reported difficulty walking. Consider physical "
             "activities appropriate for your mobility and health "
-            "status, and seek professional advice before making "
+            "status, and seek professional guidance before making "
             "major changes to your activity routine."
         )
+
 
     elif PhysActivity == "No":
 
         st.warning(
-            "You reported no regular physical activity. Consider "
-            "gradually building regular physical activity into your "
-            "routine according to your current health and ability."
+            "You reported no regular physical activity. "
+            "Consider gradually building physical activity "
+            "into your routine according to your current "
+            "health and ability."
         )
+
 
     else:
 
@@ -960,10 +1292,13 @@ if st.button(
 
 
     # =====================================================
-    # PRIORITY ACTION PLAN
+    # 25. PRIORITY ACTION PLAN
     # =====================================================
 
-    st.subheader("🎯 Your Priority Action Plan")
+    st.subheader(
+        "Priority Action Plan"
+    )
+
 
     priorities = []
 
@@ -971,13 +1306,14 @@ if st.button(
     if BMI >= 25:
 
         priorities.append(
-            "⚖️ Focus on sustainable healthy-weight habits."
+            "Focus on sustainable healthy-weight habits."
         )
+
 
     elif BMI < 18.5:
 
         priorities.append(
-            "⚖️ Consider appropriate guidance regarding healthy "
+            "Consider appropriate guidance regarding healthy "
             "weight and nutrition."
         )
 
@@ -985,7 +1321,7 @@ if st.button(
     if PhysActivity == "No":
 
         priorities.append(
-            "🏃 Gradually build regular physical activity "
+            "Gradually build regular physical activity "
             "according to your ability."
         )
 
@@ -993,7 +1329,7 @@ if st.button(
     if Fruits == "No" or Veggies == "No":
 
         priorities.append(
-            "🥗 Improve the variety and overall quality "
+            "Improve the variety and overall quality "
             "of your eating pattern."
         )
 
@@ -1001,22 +1337,22 @@ if st.button(
     if Smoker == "Yes":
 
         priorities.append(
-            "🚭 Consider appropriate support for smoking cessation."
+            "Consider appropriate support for smoking cessation."
         )
 
 
     if HvyAlcoholConsump == "Yes":
 
         priorities.append(
-            "⚠️ Address heavy alcohol consumption with "
-            "appropriate professional support."
+            "Address heavy alcohol consumption with "
+            "appropriate support."
         )
 
 
     if GenHlth in ["Poor", "Fair"]:
 
         priorities.append(
-            "❤️ Consider regular health monitoring and "
+            "Consider regular health monitoring and "
             "professional guidance."
         )
 
@@ -1024,17 +1360,17 @@ if st.button(
     if DiffWalk == "Yes":
 
         priorities.append(
-            "🚶 Consider mobility-appropriate activity "
-            "and professional guidance."
+            "Consider mobility-appropriate physical activity."
         )
 
 
     if len(priorities) == 0:
 
         st.success(
-            "Continue maintaining the positive lifestyle habits "
-            "you have reported."
+            "Continue maintaining the positive lifestyle "
+            "habits you have reported."
         )
+
 
     else:
 
@@ -1049,18 +1385,22 @@ if st.button(
 
 
     # =====================================================
-    # POSITIVE HABITS
+    # 26. POSITIVE HABITS
     # =====================================================
 
-    st.subheader("💚 Positive Habits to Maintain")
+    st.subheader(
+        "Positive Habits to Maintain"
+    )
+
 
     if len(positive_habits) > 0:
 
         for habit in positive_habits:
 
             st.write(
-                f"• {habit}"
+                f"- {habit}"
             )
+
 
     else:
 
@@ -1071,47 +1411,53 @@ if st.button(
 
 
     # =====================================================
-    # RECOMMENDED NEXT STEP
+    # 27. RECOMMENDED NEXT STEP
     # =====================================================
 
-    st.subheader("👩‍⚕️ Recommended Next Step")
+    st.subheader(
+        "Recommended Next Step"
+    )
+
 
     if prediction == 1:
 
         st.warning(
-            "The model estimated a higher likelihood of diabetes risk. "
-            "Consider discussing your overall risk profile with a "
-            "qualified healthcare professional, who can determine "
-            "whether appropriate clinical assessment or testing is needed."
+            "The model estimated a higher likelihood of diabetes "
+            "risk. Consider discussing your overall risk profile "
+            "with a qualified healthcare professional, who can "
+            "determine whether appropriate clinical assessment "
+            "or testing is needed."
         )
+
 
     else:
 
         st.success(
-            "The model estimated a lower likelihood of diabetes risk. "
-            "Continue maintaining healthy lifestyle habits and routine "
-            "healthcare as appropriate."
+            "The model estimated a lower likelihood of diabetes "
+            "risk. Continue maintaining healthy lifestyle habits "
+            "and routine healthcare as appropriate."
         )
 
 
     # =====================================================
-    # FINAL DISCLAIMER
+    # 28. FINAL DISCLAIMER
     # =====================================================
 
     st.info(
-        "ℹ️ This guidance is intended for educational and preventive "
-        "information only. It does not diagnose diabetes and does not "
-        "replace individualized advice from a qualified healthcare professional."
+        "This system is intended for educational and research "
+        "purposes. The prediction and lifestyle guidance do not "
+        "constitute a medical diagnosis or individualized "
+        "treatment advice."
     )
 
 
 # =========================================================
-# FOOTER
+# 29. FOOTER
 # =========================================================
 
 st.divider()
 
 st.caption(
-    "🩺 Diabetes Risk Prediction System | "
+    "Diabetes Risk Prediction System | "
     "Machine Learning-Based Final Year Project"
 )
