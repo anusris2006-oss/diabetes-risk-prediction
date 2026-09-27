@@ -4,7 +4,7 @@ from xgboost import XGBClassifier
 
 
 # =========================================================
-# 1. PAGE CONFIGURATION
+# PAGE CONFIGURATION
 # =========================================================
 
 st.set_page_config(
@@ -14,108 +14,185 @@ st.set_page_config(
 
 
 # =========================================================
-# 2. PROFESSIONAL THEME
-# =========================================================
-
-# =========================================================
-# PROFESSIONAL THEME
+# PROFESSIONAL LIGHT THEME
 # =========================================================
 
 st.markdown("""
 <style>
 
-/* Main background */
+/* ---------- MAIN PAGE ---------- */
+
 .stApp {
-    background-color: #F6F8FB;
+    background-color: #F4F7FA;
+    color: #1F2937;
 }
 
-/* Main content */
+/* Main content width */
 .block-container {
+    max-width: 1200px;
     padding-top: 2rem;
     padding-bottom: 3rem;
-    max-width: 1200px;
 }
 
-/* Main title */
+
+/* ---------- HEADINGS ---------- */
+
 h1 {
-    color: #123A5A !important;
+    color: #163A5F !important;
     font-family: Arial, Helvetica, sans-serif !important;
     font-weight: 700 !important;
 }
 
-/* Section headings */
 h2 {
-    color: #174A70 !important;
+    color: #1D4F73 !important;
     font-family: Arial, Helvetica, sans-serif !important;
     font-weight: 700 !important;
 }
 
 h3 {
-    color: #245C7C !important;
+    color: #2A5F82 !important;
     font-family: Arial, Helvetica, sans-serif !important;
     font-weight: 600 !important;
 }
 
-/* Normal paragraph text */
-.stMarkdown p {
+
+/* ---------- NORMAL TEXT ---------- */
+
+.stMarkdown,
+.stMarkdown p,
+.stMarkdown li {
     color: #263746;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* IMPORTANT - Input field labels */
-div[data-testid="stWidgetLabel"] p {
-    color: #1F2937 !important;
+
+/* ---------- ALL INPUT LABELS ---------- */
+
+[data-testid="stWidgetLabel"],
+[data-testid="stWidgetLabel"] *,
+.stSelectbox label,
+.stSelectbox label *,
+.stNumberInput label,
+.stNumberInput label * {
+    color: #263746 !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #263746 !important;
     font-weight: 600 !important;
     font-family: Arial, Helvetica, sans-serif !important;
 }
 
-/* Buttons */
+
+/* ---------- SELECT BOXES ---------- */
+
+/* Light grey background */
+div[data-baseweb="select"] > div {
+    background-color: #E9EDF2 !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 7px !important;
+    color: #1F2937 !important;
+}
+
+/* Text inside select box */
+div[data-baseweb="select"] span {
+    color: #1F2937 !important;
+    -webkit-text-fill-color: #1F2937 !important;
+}
+
+/* Select arrow */
+div[data-baseweb="select"] svg {
+    fill: #374151 !important;
+}
+
+
+/* ---------- NUMBER INPUTS ---------- */
+
+.stNumberInput input {
+    background-color: #E9EDF2 !important;
+    color: #1F2937 !important;
+    -webkit-text-fill-color: #1F2937 !important;
+}
+
+/* Number input container */
+div[data-baseweb="input"] {
+    background-color: #E9EDF2 !important;
+    border-radius: 7px !important;
+}
+
+/* Plus / minus buttons */
+.stNumberInput button {
+    background-color: #E1E6EC !important;
+    color: #1F2937 !important;
+}
+
+
+/* ---------- BUTTONS ---------- */
+
 .stButton > button {
-    background-color: #123A5A !important;
-    color: white !important;
+    background-color: #163A5F !important;
+    color: #FFFFFF !important;
     border: none !important;
     border-radius: 7px !important;
     font-weight: 600 !important;
+    padding: 0.6rem 1.2rem !important;
+}
+
+.stButton > button p {
+    color: #FFFFFF !important;
 }
 
 .stButton > button:hover {
-    background-color: #1B5278 !important;
-    color: white !important;
+    background-color: #21577D !important;
+    color: #FFFFFF !important;
 }
 
-/* Metric cards */
+
+/* ---------- METRIC CARDS ---------- */
+
 div[data-testid="stMetric"] {
-    background-color: white;
-    border: 1px solid #D9E2EA;
-    padding: 20px;
+    background-color: #FFFFFF;
+    border: 1px solid #D6DEE7;
     border-radius: 10px;
+    padding: 20px;
 }
 
-/* Metric labels */
-div[data-testid="stMetricLabel"] p {
+div[data-testid="stMetricLabel"],
+div[data-testid="stMetricLabel"] * {
     color: #536471 !important;
 }
 
-/* Metric values */
-div[data-testid="stMetricValue"] {
-    color: #123A5A !important;
-    font-weight: 700;
+div[data-testid="stMetricValue"],
+div[data-testid="stMetricValue"] * {
+    color: #163A5F !important;
+    font-weight: 700 !important;
 }
 
-/* Expanders */
-div[data-testid="stExpander"] {
-    background-color: white;
-    border: 1px solid #D9E2EA;
+
+/* ---------- ALERT BOXES ---------- */
+
+div[data-testid="stAlert"] {
     border-radius: 8px;
 }
 
-/* Dividers */
-hr {
-    border: none;
-    border-top: 1px solid #DCE3EA;
+
+/* ---------- EXPANDERS ---------- */
+
+div[data-testid="stExpander"] {
+    background-color: #FFFFFF;
+    border: 1px solid #D6DEE7;
+    border-radius: 8px;
 }
 
-/* Streamlit top header */
+
+/* ---------- DIVIDER ---------- */
+
+hr {
+    border: none;
+    border-top: 1px solid #D6DEE7;
+}
+
+
+/* ---------- TOP STREAMLIT HEADER ---------- */
+
 header[data-testid="stHeader"] {
     background-color: transparent;
 }
@@ -125,7 +202,7 @@ header[data-testid="stHeader"] {
 
 
 # =========================================================
-# 3. LOAD TRAINED MODEL
+# LOAD MODEL
 # =========================================================
 
 model = XGBClassifier()
@@ -133,7 +210,7 @@ model.load_model("diabetes_risk_model.json")
 
 
 # =========================================================
-# 4. SESSION STATE
+# SESSION STATE
 # =========================================================
 
 if "page" not in st.session_state:
@@ -141,27 +218,21 @@ if "page" not in st.session_state:
 
 
 # =========================================================
-# 5. NAVIGATION FUNCTIONS
+# NAVIGATION FUNCTIONS
 # =========================================================
 
 def start_app():
-    # Clear previous form values
     st.session_state.clear()
-
-    # Open dashboard
     st.session_state.page = "dashboard"
 
 
 def go_home():
-    # Clear patient details
     st.session_state.clear()
-
-    # Return to home
     st.session_state.page = "home"
 
 
 # =========================================================
-# 6. HOME PAGE
+# HOME PAGE
 # =========================================================
 
 if st.session_state.page == "home":
@@ -178,7 +249,7 @@ if st.session_state.page == "home":
         This application uses machine learning to estimate diabetes risk
         based on health, lifestyle, and demographic information.
 
-        The system uses a **Balanced XGBoost model** to estimate diabetes
+        The system uses a Balanced XGBoost model to estimate diabetes
         risk, analyse important risk factors, and provide general
         preventive lifestyle guidance.
         """
@@ -225,7 +296,7 @@ if st.session_state.page == "home":
 
 
 # =========================================================
-# 7. DASHBOARD
+# DASHBOARD
 # =========================================================
 
 st.button(
@@ -247,7 +318,7 @@ st.divider()
 
 
 # =========================================================
-# 8. PATIENT DETAILS
+# PATIENT DETAILS
 # =========================================================
 
 st.header("Patient Details")
@@ -256,14 +327,13 @@ col1, col2 = st.columns(2)
 
 
 # =========================================================
-# 9. LEFT COLUMN - HEALTH AND LIFESTYLE
+# LEFT COLUMN
 # =========================================================
 
 with col1:
 
     st.subheader("Health and Lifestyle Information")
 
-    # Height
     Height = st.number_input(
         "Height (cm) *",
         min_value=0.0,
@@ -273,7 +343,6 @@ with col1:
         key="Height"
     )
 
-    # Weight
     Weight = st.number_input(
         "Weight (kg) *",
         min_value=0.0,
@@ -283,11 +352,7 @@ with col1:
         key="Weight"
     )
 
-
-    # -----------------------------------------------------
-    # AUTOMATIC BMI CALCULATION
-    # -----------------------------------------------------
-
+    # Automatic BMI
     if Height > 0 and Weight > 0:
 
         height_in_meters = Height / 100
@@ -299,13 +364,8 @@ with col1:
         )
 
     else:
-
         BMI = 0.0
 
-
-    # -----------------------------------------------------
-    # HEALTH AND LIFESTYLE QUESTIONS
-    # -----------------------------------------------------
 
     Smoker = st.selectbox(
         "Smoker *",
@@ -357,7 +417,7 @@ with col1:
 
 
 # =========================================================
-# 10. RIGHT COLUMN - GENERAL AND PERSONAL INFORMATION
+# RIGHT COLUMN
 # =========================================================
 
 with col2:
@@ -377,8 +437,6 @@ with col2:
         key="GenHlth"
     )
 
-
-    # Mental Health Days
     mental_health_options = ["Select"] + list(range(0, 31))
 
     MentHlth = st.selectbox(
@@ -387,8 +445,6 @@ with col2:
         key="MentHlth"
     )
 
-
-    # Physical Health Days
     physical_health_options = ["Select"] + list(range(0, 31))
 
     PhysHlth = st.selectbox(
@@ -396,7 +452,6 @@ with col2:
         physical_health_options,
         key="PhysHlth"
     )
-
 
     DiffWalk = st.selectbox(
         "Difficulty Walking *",
@@ -466,7 +521,7 @@ st.caption("* Required field")
 
 
 # =========================================================
-# 11. MODEL VALUE MAPPINGS
+# MODEL VALUE MAPPINGS
 # =========================================================
 
 yes_no = {
@@ -474,12 +529,10 @@ yes_no = {
     "Yes": 1
 }
 
-
 sex_map = {
     "Female": 0,
     "Male": 1
 }
-
 
 genhlth_map = {
     "Poor": 1,
@@ -488,7 +541,6 @@ genhlth_map = {
     "Very Good": 4,
     "Excellent": 5
 }
-
 
 age_map = {
     "18-24": 1,
@@ -506,7 +558,6 @@ age_map = {
     "80+": 13
 }
 
-
 education_map = {
     "Never attended / kindergarten only": 1,
     "Elementary (Grades 1-8)": 2,
@@ -515,7 +566,6 @@ education_map = {
     "Some College / Technical School": 5,
     "College Graduate": 6
 }
-
 
 income_map = {
     "Less than $10,000": 1,
@@ -530,7 +580,7 @@ income_map = {
 
 
 # =========================================================
-# 12. PREDICTION BUTTON
+# PREDICTION
 # =========================================================
 
 st.divider()
@@ -541,108 +591,74 @@ if st.button(
     use_container_width=True
 ):
 
-    # =====================================================
-    # 13. REQUIRED FIELD VALIDATION
-    # =====================================================
+    # -----------------------------------------------------
+    # REQUIRED FIELD VALIDATION
+    # -----------------------------------------------------
 
     missing_fields = []
-
 
     if Height <= 0:
         missing_fields.append("Height")
 
-
     if Weight <= 0:
         missing_fields.append("Weight")
 
-
     if Smoker == "Select":
         missing_fields.append("Smoker")
-
 
     if HeartDiseaseorAttack == "Select":
         missing_fields.append(
             "Heart Disease or Previous Heart Attack"
         )
 
-
     if PhysActivity == "Select":
         missing_fields.append("Physical Activity")
-
 
     if Fruits == "Select":
         missing_fields.append("Fruit Consumption")
 
-
     if Veggies == "Select":
         missing_fields.append("Vegetable Consumption")
 
-
     if HvyAlcoholConsump == "Select":
-        missing_fields.append(
-            "Heavy Alcohol Consumption"
-        )
-
+        missing_fields.append("Heavy Alcohol Consumption")
 
     if AnyHealthcare == "Select":
-        missing_fields.append(
-            "Healthcare Coverage"
-        )
-
+        missing_fields.append("Healthcare Coverage")
 
     if NoDocbcCost == "Select":
         missing_fields.append(
-            "Doctor Access Due to Cost"
+            "Unable to See a Doctor Due to Cost"
         )
-
 
     if GenHlth == "Select":
-        missing_fields.append(
-            "General Health"
-        )
-
+        missing_fields.append("General Health")
 
     if MentHlth == "Select":
-        missing_fields.append(
-            "Mental Health Days"
-        )
-
+        missing_fields.append("Mental Health Days")
 
     if PhysHlth == "Select":
-        missing_fields.append(
-            "Physical Health Days"
-        )
-
+        missing_fields.append("Physical Health Days")
 
     if DiffWalk == "Select":
-        missing_fields.append(
-            "Difficulty Walking"
-        )
-
+        missing_fields.append("Difficulty Walking")
 
     if Sex == "Select":
         missing_fields.append("Sex")
 
-
     if Age == "Select":
         missing_fields.append("Age Group")
 
-
     if Education == "Select":
-        missing_fields.append(
-            "Education Level"
-        )
-
+        missing_fields.append("Education Level")
 
     if Income == "Select":
-        missing_fields.append(
-            "Income Range"
-        )
+        missing_fields.append("Income Range")
 
 
-    # =====================================================
-    # 14. STOP IF FIELDS ARE MISSING
-    # =====================================================
+    # -----------------------------------------------------
+    # STOP IF SOMETHING IS MISSING
+    # -----------------------------------------------------
 
     if missing_fields:
 
@@ -654,161 +670,97 @@ if st.button(
         st.write("**Missing fields:**")
 
         for field in missing_fields:
-
-            st.write(
-                f"- {field}"
-            )
+            st.write(f"- {field}")
 
         st.stop()
 
 
-    # =====================================================
-    # 15. PREPARE MODEL INPUT
-    # =====================================================
+    # -----------------------------------------------------
+    # PREPARE MODEL INPUT
+    # -----------------------------------------------------
 
     input_data = pd.DataFrame([{
-
         "BMI": BMI,
-
-        "Smoker":
-            yes_no[Smoker],
-
-        "HeartDiseaseorAttack":
-            yes_no[HeartDiseaseorAttack],
-
-        "PhysActivity":
-            yes_no[PhysActivity],
-
-        "Fruits":
-            yes_no[Fruits],
-
-        "Veggies":
-            yes_no[Veggies],
-
-        "HvyAlcoholConsump":
-            yes_no[HvyAlcoholConsump],
-
-        "AnyHealthcare":
-            yes_no[AnyHealthcare],
-
-        "NoDocbcCost":
-            yes_no[NoDocbcCost],
-
-        "GenHlth":
-            genhlth_map[GenHlth],
-
-        "MentHlth":
-            MentHlth,
-
-        "PhysHlth":
-            PhysHlth,
-
-        "DiffWalk":
-            yes_no[DiffWalk],
-
-        "Sex":
-            sex_map[Sex],
-
-        "Age":
-            age_map[Age],
-
-        "Education":
-            education_map[Education],
-
-        "Income":
-            income_map[Income]
-
+        "Smoker": yes_no[Smoker],
+        "HeartDiseaseorAttack": yes_no[HeartDiseaseorAttack],
+        "PhysActivity": yes_no[PhysActivity],
+        "Fruits": yes_no[Fruits],
+        "Veggies": yes_no[Veggies],
+        "HvyAlcoholConsump": yes_no[HvyAlcoholConsump],
+        "AnyHealthcare": yes_no[AnyHealthcare],
+        "NoDocbcCost": yes_no[NoDocbcCost],
+        "GenHlth": genhlth_map[GenHlth],
+        "MentHlth": MentHlth,
+        "PhysHlth": PhysHlth,
+        "DiffWalk": yes_no[DiffWalk],
+        "Sex": sex_map[Sex],
+        "Age": age_map[Age],
+        "Education": education_map[Education],
+        "Income": income_map[Income]
     }])
 
 
-    # =====================================================
-    # 16. MODEL PREDICTION
-    # =====================================================
+    # -----------------------------------------------------
+    # PREDICT
+    # -----------------------------------------------------
 
-    prediction = model.predict(
-        input_data
-    )[0]
+    prediction = model.predict(input_data)[0]
 
+    probability = model.predict_proba(input_data)[0][1]
 
-    probability = model.predict_proba(
-        input_data
-    )[0][1]
-
-
-    risk_percent = float(
-        probability * 100
-    )
+    risk_percent = float(probability * 100)
 
 
     # =====================================================
-    # 17. PREDICTION RESULT
+    # PREDICTION RESULT
     # =====================================================
 
     st.divider()
 
     st.header("Prediction Result")
 
-
     result_col1, result_col2, result_col3 = st.columns(3)
 
-
     with result_col1:
-
         st.metric(
             "Calculated BMI",
             f"{BMI:.1f}"
         )
 
-
     with result_col2:
-
         st.metric(
             "Estimated Diabetes Risk",
             f"{risk_percent:.1f}%"
         )
 
-
     with result_col3:
 
         if prediction == 1:
-
             st.metric(
                 "Risk Classification",
                 "Higher Risk"
             )
-
         else:
-
             st.metric(
                 "Risk Classification",
                 "Lower Risk"
             )
 
 
-    # =====================================================
-    # 18. RISK PROBABILITY
-    # =====================================================
+    # -----------------------------------------------------
+    # RISK PROBABILITY
+    # -----------------------------------------------------
 
-    st.subheader(
-        "Risk Probability"
-    )
+    st.subheader("Risk Probability")
 
-
-    progress_value = int(
-        round(risk_percent)
-    )
-
+    progress_value = int(round(risk_percent))
 
     progress_value = max(
         0,
         min(progress_value, 100)
     )
 
-
-    st.progress(
-        progress_value
-    )
-
+    st.progress(progress_value)
 
     if prediction == 1:
 
@@ -824,7 +776,6 @@ if st.button(
             "of diabetes risk."
         )
 
-
     st.caption(
         "The prediction is generated by a machine-learning "
         "model for educational and research purposes and "
@@ -833,18 +784,14 @@ if st.button(
 
 
     # =====================================================
-    # 19. MODEL RISK FACTOR ANALYSIS
+    # MODEL RISK FACTOR ANALYSIS
     # =====================================================
 
     st.divider()
 
-    st.header(
-        "Model Risk Factor Analysis"
-    )
-
+    st.header("Model Risk Factor Analysis")
 
     feature_names = [
-
         "BMI",
         "Smoker",
         "HeartDiseaseorAttack",
@@ -862,65 +809,47 @@ if st.button(
         "Age",
         "Education",
         "Income"
-
     ]
 
-
     importance_df = pd.DataFrame({
-
-        "Risk Factor":
-            feature_names,
-
-        "Importance":
-            model.feature_importances_
-
+        "Risk Factor": feature_names,
+        "Importance": model.feature_importances_
     })
-
 
     importance_df = importance_df.sort_values(
         by="Importance",
         ascending=False
     ).head(10)
 
-
     st.write(
-        "The chart below shows the features that were "
-        "most influential in the trained model across "
-        "the dataset."
+        "The chart below shows the features that were most "
+        "influential in the trained model across the dataset."
     )
-
 
     st.bar_chart(
-        importance_df.set_index(
-            "Risk Factor"
-        )
+        importance_df.set_index("Risk Factor")
     )
 
-
     st.caption(
-        "Feature importance represents influence within "
-        "the machine-learning model. It does not establish "
-        "that a factor causes diabetes."
+        "Feature importance represents influence within the "
+        "machine-learning model. It does not establish that "
+        "a factor causes diabetes."
     )
 
 
     # =====================================================
-    # 20. PERSONALIZED HEALTH GUIDANCE
+    # PERSONALIZED HEALTH GUIDANCE
     # =====================================================
 
     st.divider()
 
-    st.header(
-        "Personalized Health Guidance"
-    )
-
+    st.header("Personalized Health Guidance")
 
     st.write(
         "Based on the information entered, the following "
         "section highlights lifestyle areas that may deserve "
         "attention and positive habits that can be maintained."
     )
-
 
     st.caption(
         "This section provides general preventive information, "
@@ -929,24 +858,19 @@ if st.button(
 
 
     # =====================================================
-    # 21. IDENTIFY HEALTH AREAS
+    # IDENTIFY ATTENTION AREAS
     # =====================================================
 
     attention_areas = []
-
     positive_habits = []
 
 
-    # -----------------------------------------------------
     # BMI
-    # -----------------------------------------------------
-
     if BMI >= 25:
 
         attention_areas.append(
             (
                 "Weight Management",
-
                 f"Your calculated BMI is {BMI:.1f}. "
                 "Consider focusing on sustainable healthy-weight "
                 "habits through balanced food choices and regular "
@@ -954,19 +878,16 @@ if st.button(
             )
         )
 
-
     elif BMI < 18.5:
 
         attention_areas.append(
             (
                 "Weight and Nutrition",
-
                 f"Your calculated BMI is {BMI:.1f}. "
                 "Consider discussing healthy weight and nutrition "
                 "with an appropriate healthcare professional."
             )
         )
-
 
     else:
 
@@ -975,23 +896,18 @@ if st.button(
         )
 
 
-    # -----------------------------------------------------
-    # PHYSICAL ACTIVITY
-    # -----------------------------------------------------
-
+    # Physical activity
     if PhysActivity == "No":
 
         attention_areas.append(
             (
                 "Physical Activity",
-
                 "You reported no regular physical activity. "
                 "Consider gradually building regular physical "
                 "activity into your routine according to your "
                 "current ability and health status."
             )
         )
-
 
     else:
 
@@ -1000,22 +916,17 @@ if st.button(
         )
 
 
-    # -----------------------------------------------------
-    # FRUIT
-    # -----------------------------------------------------
-
+    # Fruit
     if Fruits == "No":
 
         attention_areas.append(
             (
                 "Fruit Intake",
-
                 "You reported that you do not regularly consume "
                 "fruit. Consider improving dietary variety by "
                 "including appropriate whole fruits."
             )
         )
-
 
     else:
 
@@ -1024,22 +935,17 @@ if st.button(
         )
 
 
-    # -----------------------------------------------------
-    # VEGETABLES
-    # -----------------------------------------------------
-
+    # Vegetables
     if Veggies == "No":
 
         attention_areas.append(
             (
                 "Vegetable Intake",
-
                 "You reported that you do not regularly consume "
                 "vegetables. Consider increasing the variety of "
                 "vegetables in your overall eating pattern."
             )
         )
-
 
     else:
 
@@ -1048,22 +954,17 @@ if st.button(
         )
 
 
-    # -----------------------------------------------------
-    # SMOKING
-    # -----------------------------------------------------
-
+    # Smoking
     if Smoker == "Yes":
 
         attention_areas.append(
             (
                 "Smoking",
-
                 "You reported a history of smoking. Avoiding "
                 "tobacco and seeking appropriate smoking-cessation "
                 "support can contribute to improved overall health."
             )
         )
-
 
     else:
 
@@ -1072,23 +973,17 @@ if st.button(
         )
 
 
-    # -----------------------------------------------------
-    # ALCOHOL
-    # -----------------------------------------------------
-
+    # Alcohol
     if HvyAlcoholConsump == "Yes":
 
         attention_areas.append(
             (
                 "Heavy Alcohol Consumption",
-
                 "You reported heavy alcohol consumption. "
                 "Consider discussing alcohol use with a qualified "
-                "healthcare professional and following appropriate "
-                "health guidance."
+                "healthcare professional."
             )
         )
-
 
     else:
 
@@ -1097,16 +992,12 @@ if st.button(
         )
 
 
-    # -----------------------------------------------------
-    # GENERAL HEALTH
-    # -----------------------------------------------------
-
+    # General health
     if GenHlth in ["Poor", "Fair"]:
 
         attention_areas.append(
             (
                 "General Health",
-
                 f"You rated your general health as {GenHlth}. "
                 "Regular health monitoring and discussion with "
                 "a qualified healthcare professional may be useful."
@@ -1114,16 +1005,12 @@ if st.button(
         )
 
 
-    # -----------------------------------------------------
-    # PHYSICAL HEALTH
-    # -----------------------------------------------------
-
+    # Physical health
     if PhysHlth >= 10:
 
         attention_areas.append(
             (
                 "Physical Well-being",
-
                 f"You reported {PhysHlth} poor physical-health "
                 "days during the last 30 days. Persistent physical "
                 "health concerns may be worth discussing with a "
@@ -1132,16 +1019,12 @@ if st.button(
         )
 
 
-    # -----------------------------------------------------
-    # DIFFICULTY WALKING
-    # -----------------------------------------------------
-
+    # Difficulty walking
     if DiffWalk == "Yes":
 
         attention_areas.append(
             (
                 "Mobility",
-
                 "You reported difficulty walking. Physical activity "
                 "choices should take your mobility and current "
                 "health status into account."
@@ -1150,13 +1033,10 @@ if st.button(
 
 
     # =====================================================
-    # 22. AREAS THAT MAY NEED ATTENTION
+    # AREAS NEEDING ATTENTION
     # =====================================================
 
-    st.subheader(
-        "Areas That May Need Attention"
-    )
-
+    st.subheader("Areas That May Need Attention")
 
     if len(attention_areas) == 0:
 
@@ -1164,7 +1044,6 @@ if st.button(
             "No major modifiable lifestyle concerns were "
             "identified from the selected factors."
         )
-
 
     else:
 
@@ -1174,20 +1053,14 @@ if st.button(
                 title,
                 expanded=True
             ):
-
-                st.write(
-                    message
-                )
+                st.write(message)
 
 
     # =====================================================
-    # 23. HEALTHY EATING GUIDANCE
+    # HEALTHY EATING GUIDANCE
     # =====================================================
 
-    st.subheader(
-        "Healthy Eating Guidance"
-    )
-
+    st.subheader("Healthy Eating Guidance")
 
     if Fruits == "No" and Veggies == "No":
 
@@ -1196,14 +1069,12 @@ if st.button(
             "vegetable intake may need attention."
         )
 
-
     elif Fruits == "No":
 
         st.warning(
             "Your responses indicate that fruit intake "
             "may need attention."
         )
-
 
     elif Veggies == "No":
 
@@ -1212,7 +1083,6 @@ if st.button(
             "may need attention."
         )
 
-
     else:
 
         st.success(
@@ -1220,17 +1090,15 @@ if st.button(
             "Continue maintaining a balanced eating pattern."
         )
 
-
     st.markdown(
         """
 **General healthy-eating principles**
 
 - Include a variety of vegetables and suitable whole fruits.
 - Choose whole grains and other higher-fibre foods where appropriate.
-- Include appropriate protein sources such as pulses, beans, eggs,
-  fish, or other suitable options.
-- Limit frequent intake of highly processed foods and foods or drinks
-  high in added sugars.
+- Include suitable protein sources such as pulses, beans, eggs or fish.
+- Limit frequent intake of highly processed foods.
+- Limit foods and drinks high in added sugars.
 - Pay attention to portion sizes and overall dietary balance.
 - Choose water instead of sugar-sweetened drinks when possible.
         """
@@ -1238,13 +1106,12 @@ if st.button(
 
 
     # =====================================================
-    # 24. PHYSICAL ACTIVITY GUIDANCE
+    # PHYSICAL ACTIVITY GUIDANCE
     # =====================================================
 
     st.subheader(
         "Physical Activity and Lifestyle Guidance"
     )
-
 
     if DiffWalk == "Yes":
 
@@ -1255,7 +1122,6 @@ if st.button(
             "major changes to your activity routine."
         )
 
-
     elif PhysActivity == "No":
 
         st.warning(
@@ -1264,7 +1130,6 @@ if st.button(
             "into your routine according to your current "
             "health and ability."
         )
-
 
     else:
 
@@ -1275,16 +1140,12 @@ if st.button(
 
 
     # =====================================================
-    # 25. PRIORITY ACTION PLAN
+    # PRIORITY ACTION PLAN
     # =====================================================
 
-    st.subheader(
-        "Priority Action Plan"
-    )
-
+    st.subheader("Priority Action Plan")
 
     priorities = []
-
 
     if BMI >= 25:
 
@@ -1292,14 +1153,12 @@ if st.button(
             "Focus on sustainable healthy-weight habits."
         )
 
-
     elif BMI < 18.5:
 
         priorities.append(
-            "Consider appropriate guidance regarding healthy "
-            "weight and nutrition."
+            "Consider appropriate guidance regarding "
+            "healthy weight and nutrition."
         )
-
 
     if PhysActivity == "No":
 
@@ -1308,7 +1167,6 @@ if st.button(
             "according to your ability."
         )
 
-
     if Fruits == "No" or Veggies == "No":
 
         priorities.append(
@@ -1316,13 +1174,11 @@ if st.button(
             "of your eating pattern."
         )
 
-
     if Smoker == "Yes":
 
         priorities.append(
             "Consider appropriate support for smoking cessation."
         )
-
 
     if HvyAlcoholConsump == "Yes":
 
@@ -1331,14 +1187,12 @@ if st.button(
             "appropriate support."
         )
 
-
     if GenHlth in ["Poor", "Fair"]:
 
         priorities.append(
             "Consider regular health monitoring and "
             "professional guidance."
         )
-
 
     if DiffWalk == "Yes":
 
@@ -1354,7 +1208,6 @@ if st.button(
             "habits you have reported."
         )
 
-
     else:
 
         for number, item in enumerate(
@@ -1368,39 +1221,29 @@ if st.button(
 
 
     # =====================================================
-    # 26. POSITIVE HABITS
+    # POSITIVE HABITS
     # =====================================================
 
-    st.subheader(
-        "Positive Habits to Maintain"
-    )
-
+    st.subheader("Positive Habits to Maintain")
 
     if len(positive_habits) > 0:
 
         for habit in positive_habits:
-
-            st.write(
-                f"- {habit}"
-            )
-
+            st.write(f"- {habit}")
 
     else:
 
         st.write(
-            "Use the areas identified above as starting points "
-            "for gradual lifestyle improvement."
+            "Use the areas identified above as starting "
+            "points for gradual lifestyle improvement."
         )
 
 
     # =====================================================
-    # 27. RECOMMENDED NEXT STEP
+    # RECOMMENDED NEXT STEP
     # =====================================================
 
-    st.subheader(
-        "Recommended Next Step"
-    )
-
+    st.subheader("Recommended Next Step")
 
     if prediction == 1:
 
@@ -1408,10 +1251,9 @@ if st.button(
             "The model estimated a higher likelihood of diabetes "
             "risk. Consider discussing your overall risk profile "
             "with a qualified healthcare professional, who can "
-            "determine whether appropriate clinical assessment "
-            "or testing is needed."
+            "determine whether clinical assessment or testing "
+            "is appropriate."
         )
-
 
     else:
 
@@ -1423,7 +1265,7 @@ if st.button(
 
 
     # =====================================================
-    # 28. FINAL DISCLAIMER
+    # DISCLAIMER
     # =====================================================
 
     st.info(
@@ -1435,7 +1277,7 @@ if st.button(
 
 
 # =========================================================
-# 29. FOOTER
+# FOOTER
 # =========================================================
 
 st.divider()
