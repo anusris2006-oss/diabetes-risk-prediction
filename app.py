@@ -143,12 +143,9 @@ if not st.session_state.user_id:
                     else:
                         st.error("Login failed. Please try again.")
 
-                except Exception:
-                    st.error(
-                        "Login failed. Check your email and password. "
-                        "If email confirmation is enabled, verify "
-                        "your email first."
-                    )
+                
+                except Exception as e:
+    st.error(f"Signup error: {e}")
 
     with signup_tab:
 
