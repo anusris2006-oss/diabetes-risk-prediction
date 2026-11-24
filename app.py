@@ -207,12 +207,8 @@ if not st.session_state.user_id:
                             "then return here and log in."
                         )
 
-                except Exception:
-                    st.error(
-                        "Unable to create your account. "
-                        "The email may already be registered, "
-                        "or the password may not meet the requirements."
-                    )
+                except Exception as e:
+                    st.error(f"Signup error: {e}")
 
     st.stop()
 
