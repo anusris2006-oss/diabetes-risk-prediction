@@ -84,6 +84,7 @@ if (
         clear_auth_session()
 
 
+
 # =========================================================
 # LOGIN AND SIGNUP PAGE
 # =========================================================
@@ -109,9 +110,7 @@ if not st.session_state.user_id:
 
         with st.form("login_form"):
 
-            login_email = st.text_input(
-                "Email Address"
-            )
+            login_email = st.text_input("Email Address")
 
             login_password = st.text_input(
                 "Password",
@@ -132,7 +131,7 @@ if not st.session_state.user_id:
             else:
                 try:
                     response = supabase.auth.sign_in_with_password({
-                        "email": login_email,
+                        "email": login_email.strip().lower(),
                         "password": login_password
                     })
 
@@ -143,9 +142,8 @@ if not st.session_state.user_id:
                     else:
                         st.error("Login failed. Please try again.")
 
-                
                 except Exception as e:
-    st.error(f"Signup error: {e}")
+                    st.error(f"Login error: {e}")
 
     with signup_tab:
 
@@ -177,7 +175,7 @@ if not st.session_state.user_id:
 
         if signup_button:
 
-            if not signup_email or not signup_password:
+            if not signup_email or not signup_password or not confirm_password:
                 st.error("Please complete all fields.")
 
             elif signup_password != confirm_password:
@@ -191,7 +189,7 @@ if not st.session_state.user_id:
             else:
                 try:
                     response = supabase.auth.sign_up({
-                        "email": signup_email,
+                        "email": signup_email.strip().lower(),
                         "password": signup_password
                     })
 
@@ -202,9 +200,10 @@ if not st.session_state.user_id:
 
                     else:
                         st.success(
-                            "Account created! Please verify your "
-                            "email using the confirmation link, "
-                            "then return here and log in."
+                            "Account registration submitted! "
+                            "If email confirmation is enabled, "
+                            "check your inbox and verify your email. "
+                            "Then return here and log in."
                         )
 
                 except Exception as e:
