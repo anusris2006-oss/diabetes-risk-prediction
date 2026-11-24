@@ -7,6 +7,152 @@ from datetime import datetime
 
 
 # =========================================================
+# CIRCULAR GAUGE FUNCTIONS
+# =========================================================
+
+def show_circular_gauge(value, title, gauge_type="risk"):
+
+    value = max(0, min(float(value), 100))
+
+    if gauge_type == "bmi":
+
+        if value < 18.5:
+            category = "Underweight"
+            color = "#3498db"
+        elif value < 25:
+            category = "Normal"
+            color = "#16a085"
+        elif value < 30:
+            category = "Overweight"
+            color = "#e6a23c"
+        else:
+            category = "Obese"
+            color = "#e74c3c"
+
+        # BMI scale from 10 to 40
+        progress = max(
+            0,
+            min(((value - 10) / 30) * 100, 100)
+        )
+
+        display_value = f"{value:.1f}"
+
+    else:
+
+        if value < 33.33:
+            category = "Lower Model Estimate"
+            color = "#16a085"
+        elif value < 66.67:
+            category = "Moderate Model Estimate"
+            color = "#e6a23c"
+        else:
+            category = "Higher Model Estimate"
+            color = "#e74c3c"
+
+        progress = value
+        display_value = f"{value:.1f}%"
+
+    angle = progress * 3.6
+
+    st.markdown(
+        f"""
+        <div style="
+            background:white;
+            padding:22px 10px;
+            border-radius:16px;
+            text-align:center;
+            border:1px solid #e5e7eb;
+            box-shadow:0 3px 12px rgba(0,0,0,0.05);
+            min-height:260px;
+        ">
+
+            <div style="
+                font-size:16px;
+                font-weight:600;
+                color:#334155;
+                margin-bottom:18px;
+            ">
+                {title}
+            </div>
+
+            <div style="
+                width:155px;
+                height:155px;
+                border-radius:50%;
+                margin:auto;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background:
+                    conic-gradient(
+                        {color} 0deg {angle}deg,
+                        #e9eef5 {angle}deg 360deg
+                    );
+            ">
+
+                <div style="
+                    width:125px;
+                    height:125px;
+                    border-radius:50%;
+                    background:white;
+                    display:flex;
+                    flex-direction:column;
+                    align-items:center;
+                    justify-content:center;
+                ">
+
+                    <div style="
+                        font-size:27px;
+                        font-weight:700;
+                        color:#172554;
+                    ">
+                        {display_value}
+                    </div>
+
+                    <div style="
+                        font-size:12px;
+                        color:#64748b;
+                        margin-top:4px;
+                    ">
+                        {"BMI" if gauge_type == "bmi" else "Risk Estimate"}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div style="
+                font-size:14px;
+                font-weight:600;
+                color:{color};
+                margin-top:15px;
+            ">
+                {category}
+            </div>
+
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+def show_bmi_gauge(bmi):
+    show_circular_gauge(
+        bmi,
+        "BMI Measurement",
+        "bmi"
+    )
+
+
+def show_risk_gauge(value, title):
+    show_circular_gauge(
+        value,
+        title,
+        "risk"
+    )
+
+
+# =========================================================
 # PDF GENERATION FUNCTION
 # =========================================================
 
@@ -24,21 +170,35 @@ def generate_pdf(patient_data, results, attention, positives):
     pdf.set_text_color(255, 255, 255)
     pdf.set_font("Arial", "B", 16)
     pdf.set_xy(10, 9)
-    pdf.cell(190, 10, "DIABETES RISK PREDICTION REPORT", align="C")
+
+    pdf.cell(
+        190,
+        10,
+        "DIABETES RISK PREDICTION REPORT",
+        align="C"
+    )
 
     pdf.set_font("Arial", size=9)
     pdf.set_xy(10, 21)
-    pdf.cell(190, 7, "Lifestyle and Symptom-Based Screening", align="C")
+
+    pdf.cell(
+        190,
+        7,
+        "Lifestyle and Symptom-Based Screening",
+        align="C"
+    )
 
     pdf.set_text_color(0, 0, 0)
     pdf.set_y(42)
 
     # Report date
     pdf.set_font("Arial", size=9)
+
     pdf.cell(
         pdf.epw,
         7,
-        "Report Generated: " + datetime.now().strftime("%d-%m-%Y %H:%M"),
+        "Report Generated: " +
+        datetime.now().strftime("%d-%m-%Y %H:%M"),
         new_x="LMARGIN",
         new_y="NEXT"
     )
@@ -736,48 +896,42 @@ if st.button(
     )
 
     # =====================================================
-    # RESULTS
+    # RESULTS AND CIRCULAR GAUGES
     # =====================================================
 
     st.divider()
 
     st.header("Screening Results")
 
-    result1, result2, result3 = st.columns(3)
+    st.subheader("Visual Health Dashboard")
 
-    with result1:
-        st.metric(
-            "Calculated BMI",
-            f"{BMI:.1f}"
+    gauge1, gauge2, gauge3 = st.columns(3)
+
+    with gauge1:
+        show_bmi_gauge(BMI)
+
+    with gauge2:
+        show_risk_gauge(
+            lifestyle_percent,
+            "Lifestyle Risk"
         )
 
-    with result2:
-        st.metric(
-            "Lifestyle Risk Estimate",
-            f"{lifestyle_percent:.1f}%"
+    with gauge3:
+        show_risk_gauge(
+            symptom_percent,
+            "Symptom Risk"
         )
 
-    with result3:
-        st.metric(
-            "Symptom Risk Estimate",
-            f"{symptom_percent:.1f}%"
-        )
+    st.caption(
+        "Risk percentages are machine-learning model estimates "
+        "and are not confirmed medical diagnoses."
+    )
 
     # =====================================================
     # LIFESTYLE RESULT
     # =====================================================
 
     st.subheader("Lifestyle-Based Assessment")
-
-    st.progress(
-        max(
-            0,
-            min(
-                int(round(lifestyle_percent)),
-                100
-            )
-        )
-    )
 
     if lifestyle_prediction == 1:
 
@@ -798,16 +952,6 @@ if st.button(
     # =====================================================
 
     st.subheader("Symptom-Based Assessment")
-
-    st.progress(
-        max(
-            0,
-            min(
-                int(round(symptom_percent)),
-                100
-            )
-        )
-    )
 
     if symptom_prediction == 1:
 
@@ -1104,7 +1248,7 @@ if st.button(
     )
 
     # =====================================================
-    # PDF DOWNLOAD FEATURE - ADDED
+    # PDF DOWNLOAD FEATURE
     # =====================================================
 
     patient_data = {
